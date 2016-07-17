@@ -1,0 +1,9 @@
+ansible_ssh_port: 22
+ansible_ssh_user: root
+ansible_ssh_pass:
+ansible_ssh_private_key_file: /Users/oppara/.ssh/id_rsa
+
+ssh_user: oppara
+ssh_port: 10022
+# openssl passwd -1 hogehoge
+ssh_user_pass: $1$7W.mxmHP$ra76MtKb2u6m2Lc2fSSKi1
