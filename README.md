@@ -1,10 +1,10 @@
 # Provisioning CloudAtCost by Ansible
 
-first, add cloudatcost's fingerprint to known_hosts
+1st, add cloudatcost's fingerprint to known_hosts
 
     % ssh -l root xxx.xxx.xxx.xxx 
 
-install sshpass for login with password
+2nd, install sshpass for login with password
 
     % curl -O -L http://downloads.sourceforge.net/project/sshpass/sshpass/1.06/sshpass-1.06.tar.gz
     % tar -zxvf sshpass-1.06.tar.gz
@@ -13,11 +13,11 @@ install sshpass for login with password
     % make 
     % sudo make install
 
-test ansible connection
+3rd, test ansible connection
 
     % ansible -i hosts xxx.xxx.xxx.xxx -m ping -c ssh -vvv --ask-pass
 
-run
+4th, run
 
     % ansible-playbook -i hosts init.yml -vvv --extra-vars ansible_ssh_pass=PASSWORD
 
