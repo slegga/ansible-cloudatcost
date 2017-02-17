@@ -6,7 +6,7 @@
   - name: add user
     user:
       name: "{{ ssh_user }}"
-      groups: wheel
+      groups: "{{ ssh_group }}"
       password: "{{ ssh_user_pass }}"
       generate_ssh_key: yes
       ssh_key_bits: 2048
@@ -33,12 +33,12 @@
       flat: true
     tags: users
 
-  - name: allow wheel group to use sudo
+  - name: "allow {{ ssh_group }} group to use sudo"
     lineinfile:
       dest: /etc/sudoers
       state: present
-      insertafter: "^# %wheel\\s+ALL=\\(ALL\\)\\s+ALL"
-      line: "%wheel ALL=(ALL) ALL"
+      insertafter: "^# %{{ ssh_group }}\\s+ALL=\\(ALL\\)\\s+ALL"
+      line: "%{{ ssh_group }} ALL=(ALL) ALL"
       validate: "visudo -cf %s"
       backup: yes
     tags: users

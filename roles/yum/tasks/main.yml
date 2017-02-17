@@ -1,0 +1,4 @@
+# legg til nameserver: 8.8.8.8 i /resolv.conf
+
+# yum
+# with_items: '{{ yumpackages }}'
