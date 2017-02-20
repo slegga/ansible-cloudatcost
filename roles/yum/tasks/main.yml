@@ -1,4 +1,22 @@
 # legg til nameserver: 8.8.8.8 i /resolv.conf
 
-# yum
-# with_items: '{{ yumpackages }}'
+- lineinfile:
+    path: /etc/resolv.conf
+    regexp: '^8\.8\.8\.8'
+    line: 'nameserver: 8.8.8.8'
+
+- lineinfile:
+    path: /etc/resolv.conf
+    regexp: '^8\.8\.4\.4'
+    line: 'nameserver: 8.8.4.4'
+
+- name: upgrade all packages
+    yum:
+    name: '*'
+    state: latest
+
+- name: install yum packages
+    yum:
+    name: {{ item }}
+    state: latest
+    with_items: '{{ yumpackages }}'
