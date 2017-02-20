@@ -1,0 +1,11 @@
+yumpackages:
+  - tmux
+  - perl
+  - cpan
+  - App::cpanminus
+  - gcc
+  - git
+perlmodules:
+  - Digest::MD5
+  - Compress::Raw::Zlib
+  - Mojolicious

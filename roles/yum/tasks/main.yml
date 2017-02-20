@@ -20,3 +20,8 @@
     name: {{ item }}
     state: latest
     with_items: '{{ yumpackages }}'
+
+  - cpanm:
+    name: Dancer
+    with_items: '{{ perlmodules }}'
+
