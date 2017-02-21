@@ -5,6 +5,7 @@ yumpackages:
   - App::cpanminus
   - gcc
   - git
+  - nginx
 perlmodules:
   - Digest::MD5
   - Compress::Raw::Zlib
