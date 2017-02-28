@@ -16,6 +16,19 @@ my $ansibledir = "$ENV{HOME}".'/ansible';
 if (! -d $ansibledir) {
   mkdir($ansibledir);
 }
+my $grpvdir = $ansibledir.'/group_vars';
+if (! -d $grpvdir) {
+  mkdir($grpvdir);
+}
+
+my $cacdir = $grpvdir.'/cloudatcost';
+if (! -d $grpvdir) {
+  mkdir($grpvdir);
+  copy($ENV{HOME}.'/Dropbox/Apps/pib_stein/vars.yml', $grpvdir);
+  copy($ENV{HOME}.'/Dropbox/Apps/pib_stein/vault.yml', $grpvdir);
+}
+
+
 my @ans_repos = glob "$ENV{HOME}/git/ansible*";
 for my $ans_repo(@ans_repos) {
   my @items = glob "$ans_repo/*";
