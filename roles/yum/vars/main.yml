@@ -1,0 +1,4 @@
+yumpackages:
+    - tmux
+    - perl
+
