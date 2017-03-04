@@ -1,4 +1,12 @@
 yumpackages:
-    - tmux
-    - perl
-
+  - tmux
+  - perl
+  - cpan
+  - App::cpanminus
+  - gcc
+  - git
+  - nginx
+perlmodules:
+  - Digest::MD5
+  - Compress::Raw::Zlib
+  - Mojolicious
