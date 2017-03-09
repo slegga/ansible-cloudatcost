@@ -23,19 +23,19 @@ while (my ($key,$value) = each %datesforfiles ) {
   if(! exists $value->{ansible} && ! exists $value->{ansible}){
     next;
   } elsif (! exists $value->{ansible}) { 
-    copy($syncatdir.'/'.$key, $ansibledir);
-    print "copy($syncatdir/$key, $ansibledir)\n";
+    copy($syncatdir.'/'.$key, $ansibledir.$key);
+    print "copy($syncatdir/$key, $ansibledir/$key)\n";
   } elsif (! exists $value->{ansible}) {
-    copy($ansibledir/$key, $syncatdir);
-    print "copy($ansibledir/$key, $syncatdir)\n";
+    copy($ansibledir.'/'.$key, $syncatdir.'/'.$key);
+    print "copy($ansibledir/$key, $syncatdir/$key)\n";
   } elsif ($value->{ansible} == $value->{synccat}) {
     next;
   } elsif ($value->{ansible} > $value->{synccat}) {
-    copy($ansibledir.'/'.$key, $syncatdir);
-    print "copy($ansibledir/$key, $syncatdir)\n";
+    copy($ansibledir.'/'.$key, $syncatdir.'/'.$key);
+    print "copy($ansibledir/$key, $syncatdir/$key)\n";
   } elsif ($value->{ansible} < $value->{synccat}) {
-    copy($syncatdir.'/'.$key, $ansibledir);
-    print "copy($syncatdir/$key, $ansibledir)\n";
+    copy($syncatdir.'/'.$key, $ansibledir.'/'.$key);
+    print "copy($syncatdir/$key, $ansibledir/$key)\n";
   }
 }
 print Dumper %datesforfiles;
