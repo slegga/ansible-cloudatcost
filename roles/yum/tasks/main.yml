@@ -1,4 +1,12 @@
 # legg til nameserver: 8.8.8.8 i /resolv.conf
 
-# yum
-# with_items: '{{ yumpackages }}'
+- name: upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: install the latest version of Apache
+  yum:
+    name: '{{ yumpackages.name }}'
+    state: latest
+ 	with_items: '{{ yumpackages }}'
