@@ -4,11 +4,11 @@ use warnings;
 use autodie;
 use Data::Dumper;
 use File::Copy;
-
+my @copyfiles =('group_vars/cloudatcost/vars.yml','group_vars/cloudatcost/vault.yml','hosts');
 my %datesforfiles; #({filename=>{old_date, new_date}})
 my $syncatdir = "$ENV{HOME}/Dropbox/Apps/pib_stein/cac";
 my $ansibledir="$ENV{HOME}/ansible/group_vars/cloudatcost";
-
+system( "mkdir -p $ansibledir" ) if ! -e $ansibledir;
 opendir(my $sdir, $syncatdir) || die("Can not open dir\n");
 while( my $filename = readdir($sdir) ) {
       next if $filename =~/^\./;
@@ -52,3 +52,4 @@ print Dumper %datesforfiles;
 # compare date on files.
 # copy newest over oldest
 
+# make symlinks
