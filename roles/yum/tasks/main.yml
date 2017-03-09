@@ -1,12 +1,32 @@
 # legg til nameserver: 8.8.8.8 i /resolv.conf
 
+- lineinfile:
+    path: /etc/resolv.conf
+    regexp: '^8\.8\.8\.8'
+    line: 'nameserver: 8.8.8.8'
+
+- lineinfile:
+    path: /etc/resolv.conf
+    regexp: '^8\.8\.4\.4'
+    line: 'nameserver: 8.8.4.4'
+
 - name: upgrade all packages
-  yum:
+    yum:
     name: '*'
     state: latest
 
-- name: install the latest version of Apache
-  yum:
-    name: '{{ yumpackages.name }}'
+- name: install yum packages
+    yum:
+    name: install epel-release
     state: latest
- 	with_items: '{{ yumpackages }}'
+
+- name: install yum packages
+    yum:
+    name: {{ item }}
+    state: latest
+    with_items: '{{ yumpackages }}'
+
+  - cpanm:
+    name: Dancer
+    with_items: '{{ perlmodules }}'
+
