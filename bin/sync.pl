@@ -7,25 +7,18 @@ use File::Copy;
 my @copyfiles =('group_vars/cloudatcost/vars.yml','group_vars/cloudatcost/vault.yml','hosts');
 my %datesforfiles; #({filename=>{old_date, new_date}})
 my $syncatdir = "$ENV{HOME}/Dropbox/Apps/pib_stein/cac";
-my $ansibledir="$ENV{HOME}/ansible/group_vars/cloudatcost";
+my $ansibledir="$ENV{HOME}/ansible";
 system( "mkdir -p $ansibledir" ) if ! -e $ansibledir;
-opendir(my $sdir, $syncatdir) || die("Can not open dir\n");
-while( my $filename = readdir($sdir) ) {
-      next if $filename =~/^\./;
+for my $filename (@copyfiles) {
 	my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
          $atime,$mtime,$ctime,$blksize,$blocks) = stat("$syncatdir/$filename");
 	$datesforfiles{$filename}{synccat}=$atime;
 }
-closedir $sdir;
-opendir(my $adir, $ansibledir) || die("Can not open dir\n");
-while( my $filename = readdir($adir) ) {
-
-      next if $filename =~/^\./;
+for my $filename (@copyfiles) {
         my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
          $atime,$mtime,$ctime,$blksize,$blocks) = stat("$ansibledir/$filename");
         $datesforfiles{$filename}{ansible}=$atime;
 }
-closedir $adir;
 while (my ($key,$value) = each %datesforfiles ) {
   if(! exists $value->{ansible} && ! exists $value->{ansible}){
     next;
