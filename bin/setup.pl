@@ -2,7 +2,9 @@
 use 5.016;
 use warnings;
 use strict;
+use autodie;
 use File::Basename;
+use File::Copy;
 
 sub mklink {
   my ($oldfile, $link) = @_;
@@ -21,13 +23,6 @@ if (! -d $grpvdir) {
   mkdir($grpvdir);
 }
 
-my $cacdir = $grpvdir.'/cloudatcost';
-if (! -d $grpvdir) {
-  mkdir($grpvdir);
-  copy($ENV{HOME}.'/Dropbox/Apps/pib_stein/vars.yml', $grpvdir);
-  copy($ENV{HOME}.'/Dropbox/Apps/pib_stein/vault.yml', $grpvdir);
-}
-
 
 my @ans_repos = glob "$ENV{HOME}/git/ansible*";
 for my $ans_repo(@ans_repos) {
@@ -36,6 +31,7 @@ for my $ans_repo(@ans_repos) {
     my $link = basename($item);
     next if $link eq 'group_vars';
     next if $link eq 'hosts';
+
     if ($link eq 'README.md') {
       if (! -e "$ansibledir/README") {
         mkdir "$ansibledir/README";
@@ -46,16 +42,20 @@ for my $ans_repo(@ans_repos) {
     }
     elsif ($link eq 'roles') {
       if (! -e "$ansibledir/roles") {
-	mkdir "$ansibledir/roles";
+      	mkdir "$ansibledir/roles";
       }
       my @roles = glob "$item/*";
       for my $role (@roles) {
-	if (-d $role) {
-	  my $base = basename($role);
-	  mklink($role, "$ansibledir/roles/$base");
-	}
+      	if (-d $role) {
+    	    my $base = basename($role);
+    	    mklink($role, "$ansibledir/roles/$base");
+      	}
       }
       next;
+    } elsif ($link eq 'ansible.cfg') {
+      if (! -e "$ansibledir/$link") {
+        copy($item,"$ansibledir/$link");
+      }
     }
  #   print "$item\n";
     mklink $item, "$ansibledir/$link";
@@ -63,3 +63,4 @@ for my $ans_repo(@ans_repos) {
   }
 }
 print "\n";
+system ('bin/sync.pl');

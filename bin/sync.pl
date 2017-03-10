@@ -2,40 +2,56 @@
 use strict;
 use warnings;
 use autodie;
+use feature 'say';
 use Data::Dumper;
 use File::Copy;
+use File::Basename;
+
+
 my @copyfiles =('group_vars/cloudatcost/vars.yml','group_vars/cloudatcost/vault.yml','hosts');
 my %datesforfiles; #({filename=>{old_date, new_date}})
 my $syncatdir = "$ENV{HOME}/Dropbox/Apps/pib_stein/cac";
 my $ansibledir="$ENV{HOME}/ansible";
 system( "mkdir -p $ansibledir" ) if ! -e $ansibledir;
 for my $filename (@copyfiles) {
-	my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-         $atime,$mtime,$ctime,$blksize,$blocks) = stat("$syncatdir/$filename");
-	$datesforfiles{$filename}{synccat}=$atime;
+  my $f = "$syncatdir/$filename";
+  my $d = dirname($f);
+  system( "mkdir -p $ansibledir" ) if ( ! -d dirname($f) );
+  next if ! -f $f;
+  say $f;
+  my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+      $atime,$mtime,$ctime,$blksize,$blocks) = stat($f);
+  $datesforfiles{$filename}{synccat}=$atime;
 }
 for my $filename (@copyfiles) {
-        my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-         $atime,$mtime,$ctime,$blksize,$blocks) = stat("$ansibledir/$filename");
-        $datesforfiles{$filename}{ansible}=$atime;
+  my $f = "$ansibledir/$filename";
+  my $d = dirname($f);
+  system( "mkdir -p $d" ) if ( ! -d dirname($d) );
+  next if ! -f $f;
+  my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+      $atime,$mtime,$ctime,$blksize,$blocks) = stat($f);
+  $datesforfiles{$filename}{ansible}=$atime;
 }
 while (my ($key,$value) = each %datesforfiles ) {
-  if(! exists $value->{ansible} && ! exists $value->{ansible}){
+  my ($af,$sf) = ($ansibledir.'/'.$key,$syncatdir.'/'.$key);
+  if((! exists $value->{ansible} || ! defined $value->{ansible}) 
+      && (! exists $value->{synccat} || ! defined $value->{synccat})){
     next;
   } elsif (! exists $value->{ansible}) { 
-    copy($syncatdir.'/'.$key, $ansibledir.$key);
-    print "copy($syncatdir/$key, $ansibledir/$key)\n";
-  } elsif (! exists $value->{ansible}) {
-    copy($ansibledir.'/'.$key, $syncatdir.'/'.$key);
-    print "copy($ansibledir/$key, $syncatdir/$key)\n";
+    copy($sf, $af) or die "$sf,$af Copy failed: $!";
+    print "copy($sf, $af)\n";
+    next;
+  } elsif (! exists $value->{synccat}) {
+    copy($af, $sf) or die "Copy failed: $!";
+    print "copy($af, $sf)\n";
   } elsif ($value->{ansible} == $value->{synccat}) {
     next;
   } elsif ($value->{ansible} > $value->{synccat}) {
-    copy($ansibledir.'/'.$key, $syncatdir.'/'.$key);
-    print "copy($ansibledir/$key, $syncatdir/$key)\n";
+    copy($af, $sf) or die "Copy failed: $!";
+    print "copy($af, $sf)\n";
   } elsif ($value->{ansible} < $value->{synccat}) {
-    copy($syncatdir.'/'.$key, $ansibledir.'/'.$key);
-    print "copy($syncatdir/$key, $ansibledir/$key)\n";
+    copy($sf, $af) or die "Copy failed: $!";
+    print "copy($sf, $af)\n";
   }
 }
 print Dumper %datesforfiles;
