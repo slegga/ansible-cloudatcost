@@ -8,7 +8,12 @@ use File::Copy;
 use File::Basename;
 
 
-my @copyfiles =('group_vars/cloudatcost/vars.yml','group_vars/cloudatcost/vault.yml','hosts');
+my @copyfiles =( 'group_vars/cloudatcost/vars.yml'
+                ,'group_vars/cloudatcost/vault.yml'
+                ,'group_vars/cac_ssh/vars.yml'
+                ,'group_vars/cac_ssh/vault.yml'
+                ,'ansible.cfg'
+                ,'hosts');
 my %datesforfiles; #({filename=>{old_date, new_date}})
 my $syncatdir = "$ENV{HOME}/Dropbox/Apps/pib_stein/cac";
 my $ansibledir="$ENV{HOME}/ansible";
@@ -26,7 +31,7 @@ for my $filename (@copyfiles) {
 for my $filename (@copyfiles) {
   my $f = "$ansibledir/$filename";
   my $d = dirname($f);
-  system( "mkdir -p $d" ) if ( ! -d dirname($d) );
+  system( "mkdir -p $d" ) if ( ! -d $d );
   next if ! -f $f;
   my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
       $atime,$mtime,$ctime,$blksize,$blocks) = stat($f);
@@ -42,8 +47,13 @@ while (my ($key,$value) = each %datesforfiles ) {
     print "copy($sf, $af)\n";
     next;
   } elsif (! exists $value->{synccat}) {
-    copy($af, $sf) or die "Copy failed: $!";
     print "copy($af, $sf)\n";
+    my $d = dirname($sf);
+    if ( ! -d $d ) {
+        print "mkdir -p $d";
+        system( "mkdir -p $d" ) 
+    }
+    copy($af, $sf) or die "Copy failed: $! $d";
   } elsif ($value->{ansible} == $value->{synccat}) {
     next;
   } elsif ($value->{ansible} > $value->{synccat}) {

@@ -1,4 +1,4 @@
 ---
-- hosts: cloudatcost
+- hosts: cac_ssh
   roles:
     - ssh

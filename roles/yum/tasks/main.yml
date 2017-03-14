@@ -1,32 +1,37 @@
 # legg til nameserver: 8.8.8.8 i /resolv.conf
 
 - lineinfile:
-    path: /etc/resolv.conf
+    destfile: /etc/resolv.conf
     regexp: '^8\.8\.8\.8'
     line: 'nameserver: 8.8.8.8'
+  become: true
 
 - lineinfile:
-    path: /etc/resolv.conf
+    destfile: /etc/resolv.conf
     regexp: '^8\.8\.4\.4'
     line: 'nameserver: 8.8.4.4'
+  become: true
 
 - name: upgrade all packages
-    yum:
+  yum:
     name: '*'
     state: latest
+  become: true
 
 - name: install yum packages
-    yum:
+  yum:
     name: install epel-release
     state: latest
+  become: true
 
 - name: install yum packages
-    yum:
-    name: {{ item }}
+  yum:
+    name: "{{ item }}"
     state: latest
     with_items: '{{ yumpackages }}'
+  become: true
 
-  - cpanm:
-    name: Dancer
-    with_items: '{{ perlmodules }}'
-
+- cpanm:
+  name: "{{ item }}"
+  with_items: '{{ perlmodules }}'
+  become: true
