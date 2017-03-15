@@ -20,7 +20,7 @@
 
 - name: install yum packages
   yum:
-    name: install epel-release
+    name: epel-release
     state: latest
   become: true
 
@@ -28,7 +28,7 @@
   yum:
     name: "{{ item }}"
     state: latest
-    with_items: '{{ yumpackages }}'
+    with_items: "{{ yumpackages }}"
   become: true
 
 - cpanm:
