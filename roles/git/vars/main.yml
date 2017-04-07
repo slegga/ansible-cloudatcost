@@ -1,0 +1,3 @@
+gitrepos:
+  - { name: 'pi-webserver', src: 'https://github.com/slegga/pi-webserver.git' }
+  - { name: 'utillities',   src: 'https://github.com/slegga/utillities-perl' }
