@@ -1,5 +1,9 @@
 # legg til nameserver: 8.8.8.8 i /resolv.conf
 
+- name: bare include (free-form)
+    include_vars: myvars.yml
+
+
 - lineinfile:
     destfile: /etc/resolv.conf
     regexp: '^8\.8\.8\.8'
