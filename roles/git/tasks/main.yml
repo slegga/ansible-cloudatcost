@@ -1,8 +1,14 @@
 - name: bare include main.yml
   include_vars: main.yml
 
+- file:
+    path: "~/git"
+    state: directory
+    mode: 0755
+
+
 - name: install git 
   git:
     repo: "{{ item.src }}"
-    dest: "~/{{ item.name }}"
+    dest: "~/git/{{ item.name }}"
   with_items: '{{ gitrepos }}'
