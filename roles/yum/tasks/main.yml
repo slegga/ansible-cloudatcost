@@ -1,4 +1,5 @@
-# legg til nameserver: 8.8.8.8 i /resolv.conf
+- name: bare include main.yml
+  include_vars: main.yml
 
 - name: bare include (free-form)
     include_vars: myvars.yml
@@ -6,14 +7,14 @@
 
 - lineinfile:
     destfile: /etc/resolv.conf
-    regexp: '^8\.8\.8\.8'
-    line: 'nameserver: 8.8.8.8'
+    regexp: '8\.8\.8\.8'
+    line: 'nameserver 8.8.8.8'
   become: true
 
 - lineinfile:
     destfile: /etc/resolv.conf
-    regexp: '^8\.8\.4\.4'
-    line: 'nameserver: 8.8.4.4'
+    regexp: '8\.8\.4\.4'
+    line: 'nameserver 8.8.4.4'
   become: true
 
 - name: upgrade all packages
@@ -24,18 +25,19 @@
 
 - name: install yum packages
   yum:
-    name: install epel-release
+    name: epel-release
     state: latest
   become: true
 
-- name: install yum packages
+- name: install yum packages2
   yum:
     name: "{{ item }}"
     state: latest
-    with_items: '{{ yumpackages }}'
+  with_items: "{{ yumpackages }}"
   become: true
 
-- cpanm:
-  name: "{{ item }}"
+- name: install perl modules
+  cpanm:
+    name: "{{ item }}"
   with_items: '{{ perlmodules }}'
   become: true

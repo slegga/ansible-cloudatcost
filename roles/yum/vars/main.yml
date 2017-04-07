@@ -2,11 +2,15 @@ yumpackages:
   - tmux
   - perl
   - cpan
-  - App::cpanminus
   - gcc
   - git
   - nginx
+  - cpanminus
+  - rubygems 
 perlmodules:
   - Digest::MD5
   - Compress::Raw::Zlib
+  - EV
+  - IO::Socket::IP
+  - IO::Socket::SSL
   - Mojolicious
