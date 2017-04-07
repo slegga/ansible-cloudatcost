@@ -6,7 +6,9 @@ yumpackages:
   - git
   - nginx
   - cpanminus
-  - rubygems 
+  - rubygems
+  - certbot
+  - sslopen-devel 
 perlmodules:
   - Digest::MD5
   - Compress::Raw::Zlib
@@ -14,3 +16,6 @@ perlmodules:
   - IO::Socket::IP
   - IO::Socket::SSL
   - Mojolicious
+  - Authen::OATH
+  - Convert::Base32
+  - File::Slurp
