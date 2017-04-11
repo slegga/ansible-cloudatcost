@@ -13,6 +13,12 @@
     line: 'nameserver 8.8.4.4'
   become: true
 
+- cron:
+    name: "check dirs"
+    minute: "40"
+    hour: "0"
+    job: "cd /home/stein/git/webserver && /usr/bin/git pull"
+
 - name: upgrade all packages
   yum:
     name: '*'
@@ -40,3 +46,4 @@
   tags:
     - perl
 
+ 

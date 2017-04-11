@@ -2,6 +2,13 @@
   - name: install libselinux-python for selinux
     yum: name=libselinux-python state=installed
 
+- name: Include ssh stuff
+  include_vars: ssh_vars.yml
+
+- name: Include ssh vault
+  include_vars: ssh_vault.yml
+
+
 - block:
   - name: add user
     user:

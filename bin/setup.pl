@@ -23,6 +23,11 @@ if (! -d $grpvdir) {
   mkdir($grpvdir);
 }
 
+my $grpvdir = $ansibledir.'/ssh_vars';
+if (! -d $grpvdir) {
+      mkdir($grpvdir);
+}
+
 
 my @ans_repos = glob "$ENV{HOME}/git/ansible*";
 for my $ans_repo(@ans_repos) {
@@ -59,7 +64,6 @@ for my $ans_repo(@ans_repos) {
     }
  #   print "$item\n";
     mklink $item, "$ansibledir/$link";
-#    symlink $item, $ansibledir/$link;
   }
 }
 print "\n";
