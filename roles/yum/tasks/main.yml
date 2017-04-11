@@ -1,32 +1,42 @@
-# legg til nameserver: 8.8.8.8 i /resolv.conf
+- name: bare include main.yml
+  include_vars: main.yml
 
 - lineinfile:
-    path: /etc/resolv.conf
-    regexp: '^8\.8\.8\.8'
-    line: 'nameserver: 8.8.8.8'
+    destfile: /etc/resolv.conf
+    regexp: '8\.8\.8\.8'
+    line: 'nameserver 8.8.8.8'
+  become: true
 
 - lineinfile:
-    path: /etc/resolv.conf
-    regexp: '^8\.8\.4\.4'
-    line: 'nameserver: 8.8.4.4'
+    destfile: /etc/resolv.conf
+    regexp: '8\.8\.4\.4'
+    line: 'nameserver 8.8.4.4'
+  become: true
 
 - name: upgrade all packages
-    yum:
+  yum:
     name: '*'
     state: latest
+  become: true
 
 - name: install yum packages
-    yum:
-    name: install epel-release
+  yum:
+    name: epel-release
     state: latest
+  become: true
 
-- name: install yum packages
-    yum:
-    name: {{ item }}
+- name: install yum packages2
+  yum:
+    name: "{{ item }}"
     state: latest
-    with_items: '{{ yumpackages }}'
+  with_items: "{{ yumpackages }}"
+  become: true
 
-  - cpanm:
-    name: Dancer
-    with_items: '{{ perlmodules }}'
+- name: install perl modules
+  cpanm:
+    name: "{{ item }}"
+  with_items: '{{ perlmodules }}'
+  become: true
+  tags:
+    - perl
 

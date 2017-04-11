@@ -1,0 +1,23 @@
+- name: bare include main.yml
+  include_vars: main.yml
+
+- file:
+    path: "~/git"
+    state: directory
+    mode: 0755
+
+
+- name: install git 
+  git:
+    repo: "{{ item.src }}"
+    dest: "~/git/{{ item.name }}"
+  with_items: '{{ gitrepos }}'
+
+- cron:
+    name: "Set up renew SSL"
+    minute: "48"
+    hour: "16"
+    job: "/bin/certbot renew >/dev/null"
+
+
+      

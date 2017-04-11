@@ -1,0 +1,5 @@
+---
+- hosts: cloudatcost
+  roles:
+    - yum
+    - git

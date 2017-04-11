@@ -107,3 +107,13 @@
     notify:
       - restart iptables
     tags: ssh
+
+# Accept www IP
+- iptables:
+    chain: INPUT
+    protocol: tcp
+    match: tcp
+    destination_port: 80
+    jump: ACCEPT 
+  become: true
+    
