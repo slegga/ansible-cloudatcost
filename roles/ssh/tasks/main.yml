@@ -23,6 +23,12 @@
     command: /bin/cp /home/{{ ssh_user }}/.ssh/id_rsa.pub /home/{{ ssh_user }}/.ssh/authorized_keys
     tags: users
 
+  - name: add www user
+    user:
+      name: www
+      groups: www
+    tags:users  
+
   - name: change attribures of an authorized_keys file
     file:
       path: /home/{{ ssh_user }}/.ssh/authorized_keys
