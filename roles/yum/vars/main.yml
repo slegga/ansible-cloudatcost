@@ -8,7 +8,6 @@ yumpackages:
   - cpanminus
   - rubygems
   - certbot
-  - sslopen-devel 
 perlmodules:
   - Digest::MD5
   - Compress::Raw::Zlib
@@ -18,4 +17,9 @@ perlmodules:
   - Mojolicious
   - Authen::OATH
   - Convert::Base32
+  - Env
   - File::Slurp
+  - File::Which
+  - Mojolicious::Plugin::AccessLog
+  - Toadfarm
+  - HTML::TextToHTML

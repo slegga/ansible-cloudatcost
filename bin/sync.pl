@@ -9,9 +9,8 @@ use File::Basename;
 
 
 my @copyfiles =( 'group_vars/cloudatcost/vars.yml'
-                ,'group_vars/cloudatcost/vault.yml'
-                ,'group_vars/cac_ssh/vars.yml'
-                ,'group_vars/cac_ssh/vault.yml'
+                ,'ssh_vars/cac_ssh/vars.yml'
+                ,'ssh_vars/cac_ssh/vault.yml'
                 ,'ansible.cfg'
                 ,'hosts');
 my %datesforfiles; #({filename=>{old_date, new_date}})
