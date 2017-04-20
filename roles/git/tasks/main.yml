@@ -12,3 +12,4 @@
     repo: "{{ item.src }}"
     dest: "~/git/{{ item.name }}"
   with_items: '{{ gitrepos }}'
+  tags: [git,perl]
