@@ -20,3 +20,11 @@
     hour: "16"
     job: "/bin/certbot renew >/dev/null"
 
+- name: reload nginx
+  script: /sbin/nginx
+  become:
+
+- name: reload toadfarm
+  shell: "/home/stein/git/webserver/script/toadfarm.pl reload"
+  become: www
+  tags: [git,perl]
