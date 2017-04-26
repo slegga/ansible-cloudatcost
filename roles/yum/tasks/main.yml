@@ -65,10 +65,10 @@
       #prøv service nginx status     på hjernen
       #Må komfe
       #tilnød ps -aux | grep nginx
-  #- name: Make sure web server is still running
-  #  service: name=nginx state=started
-  #  become: yes
-  #  become_user: root
-  #  tags:
-  #    - nginx
+- name: Make sure web server is still running
+  service: name=nginx state=started
+  become: yes
+  become_user: root
+  tags:
+    - nginx
  
