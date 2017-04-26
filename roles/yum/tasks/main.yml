@@ -46,4 +46,19 @@
   tags:
     - perl
 
+- name: Test if new config is ok
+  command: "/etc/init.d/nginx configtest"
+  changed_when: False
+  check_mode: no
+  become: yes
+  become_user: root
+  tags:
+    - nginx
+
+- name: Make sure web server is still running
+  service: name=nginx state=started
+  become: yes
+  become_user: root
+  tags:
+    - nginx
  
