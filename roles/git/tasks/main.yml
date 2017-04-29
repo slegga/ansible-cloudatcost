@@ -20,8 +20,8 @@
     hour: "16"
     job: "/bin/certbot renew >/dev/null"
 
-- name: reload nginx
-  script: /sbin/nginx
+- name: NGINX | ENABLE AT STARTUP
+  service: name=nginx state=started enabled=yes
   become:
 
 - name: reload toadfarm
