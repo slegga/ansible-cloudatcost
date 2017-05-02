@@ -27,6 +27,13 @@
   become: true
   become_user: www
 
+- cron:
+    name: "start at reboot"
+    special_time: reboot
+    job: "cd /home/stein/git/webserver && script/toadfarm.pl reload"
+  become: true
+  become_user: www
+
 - name: upgrade all packages
   yum:
     name: '*'

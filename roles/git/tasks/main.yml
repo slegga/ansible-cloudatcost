@@ -25,6 +25,6 @@
   become:
 
 - name: reload toadfarm
-  shell: "/home/stein/git/webserver/script/toadfarm.pl reload"
+  shell: "cd /home/stein/git/webserver && script/toadfarm.pl reload"
   become: www
   tags: [git,perl]
