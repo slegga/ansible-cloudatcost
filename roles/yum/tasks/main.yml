@@ -20,6 +20,12 @@
     job: "cd /home/stein/git/webserver && /usr/bin/git pull"
 
 - cron:
+    name: "nginx start at reboot"
+    special_time: reboot
+    job: "/sbin/ninx"
+  become: true
+
+- cron:
     name: "auto reload webserver"
     minute: "40"
     hour: "1"
