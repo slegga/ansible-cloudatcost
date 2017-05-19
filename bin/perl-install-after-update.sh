@@ -7,3 +7,5 @@ cpan Log::Log4perl
 cpan Mojolicious
 cpan Mojolicious::Plugin::OpenAPI
 cpan Mojolicious::Plugin::AccessLog
+cpan File::Next
+cpan App::Ack
