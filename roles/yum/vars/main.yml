@@ -23,3 +23,4 @@ perlmodules:
   - Mojolicious::Plugin::AccessLog
   - Toadfarm
   - HTML::TextToHTML
+  - autodie
