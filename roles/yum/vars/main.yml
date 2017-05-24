@@ -24,3 +24,4 @@ perlmodules:
   - Toadfarm
   - HTML::TextToHTML
   - autodie
+  - Git::Repository
