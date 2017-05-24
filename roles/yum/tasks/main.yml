@@ -79,8 +79,9 @@
       #Må komfe
       #tilnød ps -aux | grep nginx
 - name: Make sure web server is still running
-  service: name=nginx state=started enabled=yes
-  become: yes
+  #  service: name=nginx state=started enabled=yes
+  command: "/usr/sbin/nginx -s reload"
+    become: yes
   become_user: root
   tags:
     - nginx
