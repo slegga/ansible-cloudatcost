@@ -78,12 +78,11 @@
       #prøv service nginx status     på hjernen
       #Må komfe
       #tilnød ps -aux | grep nginx
-
-- name: Make sure web server is still running
+- name: Make sure web server is still running. Service module does not work with older nginx.
   #  service: name=nginx state=started enabled=yes
-  command: "/usr/sbin/nginx -s reload"
-  changed_when: False
+  command: "service nginx start"
   become: yes
+  #  command: "/usr/sbin/nginx -s reload"
   become_user: root
   tags:
     - nginx
