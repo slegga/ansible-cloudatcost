@@ -75,6 +75,14 @@
   tags:
     - nginx
 
+
+- name: Work a round nginx bug
+  command: 'ps -aux |grep "master process nginx"|grep -v grep|cut -c 9-15>/run/nginx.pid'
+  become: yes
+  become_user: root
+  tags:
+    - nginx
+
       #prøv service nginx status     på hjernen
       #Må komfe
       #tilnød ps -aux | grep nginx
