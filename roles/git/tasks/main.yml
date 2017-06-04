@@ -20,11 +20,8 @@
     hour: "16"
     job: "/bin/certbot renew >/dev/null"
 
-- name: NGINX | ENABLE AT STARTUP
-  service: name=nginx state=started enabled=yes
-  become:
-
 - name: reload toadfarm
-  shell: "cd /home/stein/git/webserver && script/toadfarm.pl reload"
-  become: www
+  shell: "PATH=$PATH:/usr/local/bin /home/stein/git/webserver/script/toadfarm.pl reload"
+  become: true
+  become_user: www
   tags: [git,perl]
