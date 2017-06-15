@@ -23,7 +23,7 @@ if (! -d $grpvdir) {
   mkdir($grpvdir);
 }
 
-my $grpvdir = $ansibledir.'/ssh_vars';
+$grpvdir = $ansibledir.'/ssh_vars';
 if (! -d $grpvdir) {
       mkdir($grpvdir);
 }
