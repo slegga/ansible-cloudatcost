@@ -8,6 +8,7 @@ yumpackages:
   - cpanminus
   - rubygems
   - certbot
+  - tree
 perlmodules:
   - Digest::MD5
   - Compress::Raw::Zlib
