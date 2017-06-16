@@ -7,5 +7,6 @@
         role: perlbrew,
         perlbrew_user: root,
         perlbrew_root: /opt/perlbrew,
-        use_profile: true
+        use_profile: true,
+        tags: [ 'perlbrew' ]
       }
