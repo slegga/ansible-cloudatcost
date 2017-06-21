@@ -10,6 +10,7 @@ yumpackages:
   - certbot
   - tree
 perlmodules:
+  - App::perlbrew
   - Digest::MD5
   - Compress::Raw::Zlib
   - EV
