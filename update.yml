@@ -6,9 +6,6 @@
     - {
         role: perlbrew,
         perlbrew_user: stein,
-        #        perl_version: perl-5.26.0,
-        perls: perl-5.26.0,
-        perlbrew_root: /opt/perlbrew,
         use_profile: true,
         tags: [ 'perlbrew' ]
       }
