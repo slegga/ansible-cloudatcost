@@ -27,3 +27,15 @@ perlmodules:
   - HTML::TextToHTML
   - autodie
   - Git::Repository
+  - MIME::Parser
+  - YAML
+  - YAML::Tiny
+  - Test::Compile
+  - Readonly
+  - IO::ScalarArray
+  - Text::CSV
+  - List::MoreUtils
+  - Getopt::Long::Descriptive
+  - Term::ReadKey
+  - MIME::Parser
+
