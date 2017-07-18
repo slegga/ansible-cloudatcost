@@ -40,4 +40,4 @@ perlmodules:
   - MIME::Parser
   - OpenAPI
   - Mojolicious::Plugin::OpenAPI
-
+  - Test::Script
