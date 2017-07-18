@@ -38,4 +38,6 @@ perlmodules:
   - Getopt::Long::Descriptive
   - Term::ReadKey
   - MIME::Parser
+  - OpenAPI
+  - Mojolicious::Plugin::OpenAPI
 
