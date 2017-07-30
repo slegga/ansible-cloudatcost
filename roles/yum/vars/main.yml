@@ -28,3 +28,17 @@ perlmodules:
   - autodie
   - Git::Repository
   - IPC::System::Simple
+  - MIME::Parser
+  - YAML
+  - YAML::Tiny
+  - Test::Compile
+  - Readonly
+  - IO::ScalarArray
+  - Text::CSV
+  - List::MoreUtils
+  - Getopt::Long::Descriptive
+  - Term::ReadKey
+  - MIME::Parser
+  - OpenAPI
+  - Mojolicious::Plugin::OpenAPI
+  - Test::Script
