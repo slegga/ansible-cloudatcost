@@ -27,6 +27,7 @@ perlmodules:
   - HTML::TextToHTML
   - autodie
   - Git::Repository
+  - IPC::System::Simple
   - MIME::Parser
   - YAML
   - YAML::Tiny
