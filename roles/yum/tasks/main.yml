@@ -63,7 +63,6 @@
   cpanm:
     name: "{{ item }}"
   with_items: '{{ perlmodules }}'
-  become: true
   tags:
     - perl
 
