@@ -76,7 +76,7 @@
 
 
 - name: Work a round nginx bug
-  shell: 'ps -aux |grep "master process nginx"|grep -v grep|cut -c 9-15|tr -d " " >/run/nginx.pid'
+  shell: 'ps -ef|grep nginx|grep master|grep -v grep|tr -s " " | cut -d " " -f2 >/run/nginx.pid'
   become: yes
   become_user: root
   tags:
