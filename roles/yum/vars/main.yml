@@ -42,3 +42,4 @@ perlmodules:
   - OpenAPI
   - Mojolicious::Plugin::OpenAPI
   - Test::Script
+  - IO::Socket::PortState 
