@@ -11,35 +11,7 @@ yumpackages:
   - tree
 perlmodules:
   - App::perlbrew
+  - App::Ack
   - Digest::MD5
   - Compress::Raw::Zlib
-  - EV
-  - IO::Socket::IP
-  - IO::Socket::SSL
-  - Mojolicious
-  - Authen::OATH
-  - Convert::Base32
-  - Env
-  - File::Slurp
-  - File::Which
-  - Mojolicious::Plugin::AccessLog
-  - Toadfarm
-  - HTML::TextToHTML
-  - autodie
-  - Git::Repository
-  - IPC::System::Simple
-  - MIME::Parser
-  - YAML
-  - YAML::Tiny
-  - Test::Compile
-  - Readonly
-  - IO::ScalarArray
-  - Text::CSV
-  - List::MoreUtils
-  - Getopt::Long::Descriptive
-  - Term::ReadKey
-  - MIME::Parser
-  - OpenAPI
-  - Mojolicious::Plugin::OpenAPI
-  - Test::Script
-  - IO::Socket::PortState 
+
