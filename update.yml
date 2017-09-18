@@ -7,5 +7,5 @@
         role: perlbrew,
         perlbrew_user: stein,
         use_profile: true,
-        tags: [ 'perlbrew' ]
+        tags: [ 'perlbrew','perl' ]
       }
