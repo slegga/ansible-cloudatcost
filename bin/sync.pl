@@ -9,8 +9,8 @@ use File::Basename;
 
 
 my @copyfiles =( 'group_vars/cloudatcost/vars.yml'
-                ,'ssh_vars/cac_ssh/vars.yml'
-                ,'ssh_vars/cac_ssh/vault.yml'
+#                ,'cac_ssh/vars.yml'
+#                ,'cac_ssh/vault.yml'
                 ,'ansible.cfg'
                 ,'hosts');
 my %datesforfiles; #({filename=>{old_date, new_date}})
@@ -21,8 +21,11 @@ for my $filename (@copyfiles) {
   my $f = "$syncatdir/$filename";
   my $d = dirname($f);
   system( "mkdir -p $ansibledir" ) if ( ! -d dirname($f) );
-  next if ! -f $f;
-  say $f;
+  if (! -f $f) {
+      warn "$f does not exists! Ignore";
+      next;
+  }
+  warn $f;
   my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
       $atime,$mtime,$ctime,$blksize,$blocks) = stat($f);
   $datesforfiles{$filename}{synccat}=$atime;
@@ -38,10 +41,10 @@ for my $filename (@copyfiles) {
 }
 while (my ($key,$value) = each %datesforfiles ) {
   my ($af,$sf) = ($ansibledir.'/'.$key,$syncatdir.'/'.$key);
-  if((! exists $value->{ansible} || ! defined $value->{ansible}) 
+  if((! exists $value->{ansible} || ! defined $value->{ansible})
       && (! exists $value->{synccat} || ! defined $value->{synccat})){
     next;
-  } elsif (! exists $value->{ansible}) { 
+  } elsif (! exists $value->{ansible}) {
     copy($sf, $af) or die "$sf,$af Copy failed: $!";
     print "copy($sf, $af)\n";
     next;
@@ -50,7 +53,7 @@ while (my ($key,$value) = each %datesforfiles ) {
     my $d = dirname($sf);
     if ( ! -d $d ) {
         print "mkdir -p $d";
-        system( "mkdir -p $d" ) 
+        system( "mkdir -p $d" )
     }
     copy($af, $sf) or die "Copy failed: $! $d";
   } elsif ($value->{ansible} == $value->{synccat}) {
@@ -66,7 +69,7 @@ while (my ($key,$value) = each %datesforfiles ) {
 print Dumper %datesforfiles;
 # Script to sync group_vars with dropbox
 #
-# Read config file, 
+# Read config file,
 # compare date on files.
 # copy newest over oldest
 

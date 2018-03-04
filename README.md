@@ -2,7 +2,7 @@
 
 1st, add cloudatcost's fingerprint to known_hosts
 
-    % ssh -l root xxx.xxx.xxx.xxx 
+    % ssh -l root xxx.xxx.xxx.xxx
 
 2nd, install sshpass for login with password
 
@@ -10,19 +10,14 @@
     % tar -zxvf sshpass-1.06.tar.gz
     % cd sshpass-1.06
     % ./configure
-    % make 
+    % make
     % sudo make install
 
-3rd, test ansible connection
-
-    % ansible -i hosts xxx.xxx.xxx.xxx -m ping -c ssh -vvv --ask-pass
-
-4th, run
-
-    % ansible-playbook -i hosts init.yml -vvv --extra-vars ansible_ssh_pass=PASSWORD
-
-
-## reference
-
-- [実践！Ansibleベストプラクティス（前編）](http://knowledge.sakura.ad.jp/tech/3084/)
-- [AnsibleでVPS初期設定](http://blog.ieknir.com/blog/beginning-conoha-vps-with-ansible/)
+3th, Run setup
+    % $EDITOR bin/setup.pl
+    % bin/setup.pl
+    %
+3th, run
+    % cd ~/ansible
+    % ansible-playbook -i hosts init.yml -vvv --ask-pass
+    % mv private_key-xxxxx.id_rsa ~/.ssh/.
