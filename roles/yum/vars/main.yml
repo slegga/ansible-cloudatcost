@@ -9,11 +9,12 @@ yumpackages:
   - rubygems
   - certbot
   - tree
-perlmodules:
-  - IO::All
-  - File::Which
-  - App::perlbrew
-  - App::Ack
-  - Digest::MD5
-  - Compress::Raw::Zlib
+#perlmodules:
+#  - Env
+#  - IO::All
+#  - File::Which
+#  - App::perlbrew
+#  - App::Ack
+#  - Digest::MD5
+#  - Compress::Raw::Zlib
 

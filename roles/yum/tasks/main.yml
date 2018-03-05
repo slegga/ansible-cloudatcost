@@ -59,13 +59,13 @@
   with_items: "{{ yumpackages }}"
   become: true
 
-- name: install perl modules
-  cpanm:
-    name: "{{ item }}"
-  with_items: '{{ perlmodules }}'
-  tags:
-    - perl
-  become: yes
+#- name: install perl modules
+#  cpanm:
+#    name: "{{ item }}"
+#  with_items: '{{ perlmodules }}'
+#  tags:
+#    - perl
+#  become: yes
 
 - name: Test if new config is ok
   command: "/usr/sbin/nginx -t"
