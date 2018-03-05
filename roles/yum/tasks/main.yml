@@ -65,6 +65,7 @@
   with_items: '{{ perlmodules }}'
   tags:
     - perl
+  become: yes
 
 - name: Test if new config is ok
   command: "/usr/sbin/nginx -t"
@@ -85,7 +86,7 @@
       #prøv service nginx status     på hjernen
       #Må komfe
       #tilnød ps -aux | grep nginx
-      # service fungerer rett og slett ikke. Får bruke 
+      # service fungerer rett og slett ikke. Får bruke
 - name: Make sure web server is still running. Service module does not work with older nginx.
   #  service: name=nginx state=started enabled=yes
   # command: "service nginx start" #virker ikke
@@ -94,4 +95,4 @@
   become_user: root
   tags:
     - nginx
- 
+

@@ -10,6 +10,8 @@ yumpackages:
   - certbot
   - tree
 perlmodules:
+  - IO::All
+  - File::Which
   - App::perlbrew
   - App::Ack
   - Digest::MD5
