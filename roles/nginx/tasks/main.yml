@@ -1,0 +1,43 @@
+---
+upstream myapp {
+  server 127.0.0.1:8080;
+}
+
+  location / {
+    proxy_pass http://myapp;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+
+
+- name: Test if new config is ok
+  command: "/usr/sbin/nginx -t"
+  changed_when: False
+  become: yes
+  become_user: root
+  tags:
+    - nginx
+
+- name: Work a round nginx bug
+  shell: 'ps -ef|grep nginx|grep master|grep -v grep|tr -s " " | cut -d " " -f2 >/run/nginx.pid'
+  become: yes
+  become_user: root
+  tags:
+    - nginx
+
+      #prøv service nginx status     på hjernen
+      #Må komfe
+      #tilnød ps -aux | grep nginx
+      # service fungerer rett og slett ikke. Får bruke
+- name: Make sure web server is still running. Service module does not work with older nginx.
+  #  service: name=nginx state=started enabled=yes
+  # command: "service nginx start" #virker ikke
+  become: yes
+  command: "/usr/sbin/nginx -s reload"
+  become_user: root
+  tags:
+    - nginx

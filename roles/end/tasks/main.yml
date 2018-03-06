@@ -1,0 +1,8 @@
+---
+# End tasks
+
+- name: reload toadfarm
+  shell: "PATH=$PATH:/usr/local/bin /home/stein/git/webserver/script/toadfarm.pl reload"
+  become: true
+  become_user: www
+  tags: [git,perl,perlbrew]
