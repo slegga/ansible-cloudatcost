@@ -7,7 +7,7 @@
     mode: 0755
 
 
-- name: install git 
+- name: install git
   git:
     repo: "{{ item.src }}"
     dest: "~/git/{{ item.name }}"
@@ -19,9 +19,3 @@
     minute: "48"
     hour: "16"
     job: "/bin/certbot renew >/dev/null"
-
-- name: reload toadfarm
-  shell: "PATH=$PATH:/usr/local/bin /home/stein/git/webserver/script/toadfarm.pl reload"
-  become: true
-  become_user: www
-  tags: [git,perl]

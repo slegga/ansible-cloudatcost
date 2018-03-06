@@ -2,6 +2,10 @@
 - hosts: cloudatcost
   roles:
     - yum
+    - {role:
+        role: nginx,
+        tags: [ 'nginx' ]
+      }
     - git
     - {
         role: perlbrew,
@@ -9,3 +13,4 @@
         use_profile: true,
         tags: [ 'perlbrew','perl' ]
       }
+    - end
