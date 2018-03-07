@@ -13,3 +13,4 @@ yumpackages:
   - ufw
   - lynx
   - openssl-devel
+  - vim
