@@ -10,3 +10,4 @@ yumpackages:
   - certbot
   - tree
   - certbot-nginx
+  - openssl-devel
