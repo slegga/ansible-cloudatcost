@@ -10,3 +10,5 @@ yumpackages:
   - certbot
   - tree
   - certbot-nginx
+  - ufw
+  - lynx
