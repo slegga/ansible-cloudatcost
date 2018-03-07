@@ -12,3 +12,4 @@ yumpackages:
   - certbot-nginx
   - ufw
   - lynx
+  - openssl-devel

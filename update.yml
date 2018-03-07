@@ -2,7 +2,7 @@
 - hosts: cloudatcost
   roles:
     - yum
-    - {role:
+    - {
         role: nginx,
         tags: [ 'nginx' ]
       }
