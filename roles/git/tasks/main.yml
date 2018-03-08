@@ -4,8 +4,13 @@
 - file:
     path: "~/git"
     state: directory
-    mode: 0755
+    group: www
+    mode: u+rwx,g+r,o+r
 
+- file:
+    path: "~"
+    state: directory
+    mode: u+rwx,g+r,o+r
 
 - name: install git
   git:
@@ -19,3 +24,24 @@
     minute: "48"
     hour: "16"
     job: "/bin/certbot renew >/dev/null"
+
+- name: Create dir
+  file:
+    group: www
+    owner: www
+    mode:  0770
+    path:  "/var/log/toadfarm/"
+
+- name: Create log dir
+  file:
+    group: www
+    owner: www
+    mode:  0770
+    path: "/home/www/log/crontab/"
+
+- name: Create log dir
+  file:
+    group: www
+    owner: www
+    mode:  0750
+    path: "/home/www/etc/"

@@ -9,10 +9,19 @@
 
 
 - block:
+  - name: add www group
+    group:
+      name: www
+      state: present
+    tags: users
+
+
   - name: add user
     user:
       name: "{{ ssh_user }}"
-      groups: "{{ ssh_group }}"
+      group: www
+      groups:
+      - "{{ ssh_group }}"
       password: "{{ ssh_pass }}"
       generate_ssh_key: yes
       ssh_key_bits: 2048
@@ -20,12 +29,6 @@
 
   - name: create an authorized_keys file
     command: "/bin/cp /home/{{ ssh_user }}/.ssh/id_rsa.pub /home/{{ ssh_user }}/.ssh/authorized_keys"
-    tags: users
-
-  - name: add www group
-    group:
-      name: www
-      state: present
     tags: users
 
   - name: add www user
