@@ -1,4 +1,4 @@
 gitrepos:
   - { name: 'webserver', src: 'https://github.com/slegga/webserver.git' }
-  - { name: 'utillities-perl',   src: 'https://github.com/slegga/utillities-perl' }
+  - { name: 'utillities-perl',   src: 'https://github.com/slegga/utillities-perl.git' }
   - { name: 'perlbrew-cron',   src: 'https://github.com/agorman/perlbrew-cron.git' }
