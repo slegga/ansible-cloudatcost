@@ -1,42 +1,58 @@
 ---
 
 - ufw:
-  state: enabled
-  policy: deny
+    state: enabled
+    policy: deny
+  become: true
+  tags: nginx
 
 - ufw:
-  rule: limit
-  port: ssh
-  proto: tcp
+    rule: limit
+    port: ssh
+    proto: tcp
+  become: true
+  tags: nginx
 
 - ufw:
     rule: allow
     port: 22
+  become: true
+  tags: nginx
 
 - ufw:
     rule: allow
     port: 80
+  become: true
+  tags: nginx
 
 - ufw:
     rule: allow
     port: 443
+  become: true
+  tags: nginx
+
+- name: Remove root dir
+  lineinfile:
+    path: /etc/nginx/nginx.conf
+    state: absent
+    regexp: 'root.+/usr/share/nginx/html'
+  become: true
+  tags: ngnix
 
 - name: insert upstream
   blockinfile:
     path: /etc/nginx/nginx.conf
-    marker: "# ANSIBLE MANAGED BLOCK  {{ item.name }} "
-    insertbefore: BOF
-    content: |
-      upstream myapp {
-  	      server 127.0.0.1:3000;
-	  }
+    marker: "# {mark} ANSIBLE MANAGED BLOCK upstream"
+    insertafter: "http {"
+    content: "    upstream myapp {\n        server 127.0.0.1:8888;\n    }"
   become: true
+  tags: ngnix
 
 - name: insert proxy settings
   blockinfile:
     path: /etc/nginx/nginx.conf
-    marker: "# ANSIBLE MANAGED BLOCK  {{ item.name }} "
-    insertafter: "location / {"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK proxy settings"
+    insertafter: "^[^#]*location */ *{"
     content: |
         proxy_pass http://myapp;
         proxy_http_version 1.1;
@@ -45,12 +61,13 @@
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+  become: true
+  tags: nginx
 
 - name: Test if new config is ok
   command: "/usr/sbin/nginx -t"
   changed_when: False
-  become: yes
-  become_user: root
+  become: true
   tags:
     - nginx
 

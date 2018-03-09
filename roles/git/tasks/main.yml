@@ -31,6 +31,7 @@
     owner: www
     mode:  0770
     path:  "/var/log/toadfarm/"
+  become: true
 
 - name: Create log dir
   file:
@@ -38,6 +39,7 @@
     owner: www
     mode:  0770
     path: "/home/www/log/crontab/"
+  become: true
 
 - name: Create log dir
   file:
@@ -45,3 +47,4 @@
     owner: www
     mode:  0750
     path: "/home/www/etc/"
+  become: true
