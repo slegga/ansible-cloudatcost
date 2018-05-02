@@ -14,3 +14,4 @@ yumpackages:
   - lynx
   - openssl-devel
   - vim
+  - telnet
