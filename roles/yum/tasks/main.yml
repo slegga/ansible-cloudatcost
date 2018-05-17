@@ -26,6 +26,13 @@
   become: true
 
 - cron:
+    name: "certbot renew"
+    minute: "39"
+    hour: "19"
+    job: "/usr/bin/certbot renew"
+  become: true
+
+- cron:
     name: "auto reload webserver"
     minute: "40"
     hour: "1"
