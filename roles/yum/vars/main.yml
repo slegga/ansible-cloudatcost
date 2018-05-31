@@ -15,3 +15,5 @@ yumpackages:
   - openssl-devel
   - vim
   - telnet
+  - ntp
+  - traceroute

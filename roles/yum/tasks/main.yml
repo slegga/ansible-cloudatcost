@@ -70,10 +70,12 @@
     path: ~/git/webserver
     state: directory
     mode: 0755
-#- name: install perl modules
-#  cpanm:
-#    name: "{{ item }}"
-#  with_items: '{{ perlmodules }}'
-#  tags:
-#    - perl
-#  become: yes
+
+- name: Set timezone
+  shell: timedatectl set-timezone Europe/Oslo
+
+- name: Enable auto timeset
+  shell: systemctl enable ntpd
+
+- name: Start auto timeset
+  shell: systemctl start ntpd
