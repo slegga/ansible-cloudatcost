@@ -19,12 +19,6 @@
   with_items: '{{ gitrepos }}'
   tags: [git,perl]
 
-- cron:
-    name: "Set up renew SSL"
-    minute: "48"
-    hour: "16"
-    job: "/bin/certbot renew >/dev/null"
-
 - name: Create dir
   file:
     group: www

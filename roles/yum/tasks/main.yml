@@ -29,7 +29,7 @@
     name: "certbot renew"
     minute: "39"
     hour: "19"
-    job: "/usr/bin/certbot renew"
+    job: "/usr/bin/bash /usr/bin/certbot renew"
   become: true
 
 - cron:
