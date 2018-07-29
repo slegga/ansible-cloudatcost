@@ -21,3 +21,8 @@
     % cd ~/ansible
     % ansible-playbook -i hosts init.yml -vvv --ask-pass
     % mv private_key-xxxxx.id_rsa ~/.ssh/.
+
+
+# Later updates
+
+% ansible-playbook -i hosts update.yml -v -K
