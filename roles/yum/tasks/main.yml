@@ -72,10 +72,13 @@
     mode: 0755
 
 - name: Set timezone
+  become: true
   shell: timedatectl set-timezone Europe/Oslo
 
 - name: Enable auto timeset
+  become: true
   shell: systemctl enable ntpd
 
 - name: Start auto timeset
   shell: systemctl start ntpd
+  become: true
