@@ -11,7 +11,7 @@ sub mklink {
   my ($oldfile, $link) = @_;
   if (! -e $link) {
     print "symlink $oldfile, $link\n";
-    symlink $oldfile, $link || confess "symlink error";    
+    symlink $oldfile, $link || confess "symlink error";
   }
 }
 
@@ -75,4 +75,4 @@ for my $ans_repo(@ans_repos) {
   }
 }
 print "\n";
-system ('bin/sync.pl');
+system ('script/sync.pl');
