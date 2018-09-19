@@ -17,3 +17,4 @@ yumpackages:
   - telnet
   - ntp
   - traceroute
+  - libasound2-dev
