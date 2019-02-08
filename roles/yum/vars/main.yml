@@ -17,5 +17,5 @@ yumpackages:
   - telnet
   - ntp
   - traceroute
-  - sqlite3
+  - sqlite
 #  - libasound2-dev not needed on slegga.0x.no
