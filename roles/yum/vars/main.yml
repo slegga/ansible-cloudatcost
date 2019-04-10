@@ -18,4 +18,6 @@ yumpackages:
   - ntp
   - traceroute
   - sqlite
+  - expat
+  - expat-devel
 #  - libasound2-dev not needed on slegga.0x.no
