@@ -82,12 +82,12 @@
   tags:
     - nginx
 
-- name: Work a round nginx bug
-  shell: 'ps -ef|grep nginx|grep master|grep -v grep|tr -s " " | cut -d " " -f2 >/run/nginx.pid'
-  become: yes
-  become_user: root
-  tags:
-    - nginx
+#- name: Work a round nginx bug
+#  shell: 'ps -ef|grep nginx|grep master|grep -v grep|tr -s " " | cut -d " " -f2 >/run/nginx.pid'
+#  become: yes
+#  become_user: root
+#  tags:
+#    - nginx
 
       #prøv service nginx status     på hjernen
       #Må komfe
