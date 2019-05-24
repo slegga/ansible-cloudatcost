@@ -13,4 +13,5 @@
         use_profile: true,
         tags: [ 'perlbrew','perl' ]
       }
+    - email
     - end

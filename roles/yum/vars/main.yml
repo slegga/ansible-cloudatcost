@@ -20,4 +20,5 @@ yumpackages:
   - sqlite
   - expat
   - expat-devel
+  - mailx
 #  - libasound2-dev not needed on slegga.0x.no

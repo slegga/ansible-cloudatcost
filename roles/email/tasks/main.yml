@@ -1,0 +1,20 @@
+- name: bare include main.yml
+  include_vars: main.yml
+
+- lineinfile:
+    destfile: /etc/aliases
+    regexp: '\w\.\w'
+    line: "{{ssh_user}}: {{email_address}}"
+  become: true
+  tags:   email
+
+- name: Load forward email address
+  shell: newaliases
+  become: true
+  tags:   email
+
+- name: Restart postfix
+  shell: service postfix restart
+  become: true
+  tags:   email
+
