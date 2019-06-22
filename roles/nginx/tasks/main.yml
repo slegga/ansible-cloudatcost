@@ -41,7 +41,7 @@
 
 - name: insert upstream
   blockinfile:
-    path: /etc/nginx/nginx.conf
+    destfile: /etc/nginx/nginx.conf
     marker: "# {mark} ANSIBLE MANAGED BLOCK upstream"
     insertafter: "http {"
 
@@ -51,7 +51,7 @@
 
 - name: insert proxy settings
   blockinfile:
-    path: /etc/nginx/nginx.conf
+    destfile: /etc/nginx/nginx.conf
     marker: "# {mark} ANSIBLE MANAGED BLOCK proxy settings"
     insertafter: "^[^#]*location */ *{"
     content: |
