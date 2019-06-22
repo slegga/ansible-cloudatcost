@@ -33,7 +33,7 @@
 
 - name: Remove root dir
   lineinfile:
-    path: /etc/nginx/nginx.conf
+    destfile: /etc/nginx/nginx.conf
     state: absent
     regexp: 'root.+/usr/share/nginx/html'
   become: true
