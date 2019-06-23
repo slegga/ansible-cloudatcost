@@ -2,7 +2,8 @@
 # End tasks
 
 - name: reload toadfarm
-  shell: "PATH=$PATH:/usr/local/bin /home/stein/git/perlbrew-cron/perlbrew-cron.sh /home/stein/git/webserver/script/toadfarm.pl reload"
-  become: true
+  command: "PATH=$PATH:/usr/local/bin /home/stein/git/perlbrew-cron/perlbrew-cron.sh script/toadfarm.pl reload"
+  chdir: /home/stein/git/webserver
+  become: yes
   become_user: www
   tags: [git,perl,perlbrew]
