@@ -3,8 +3,8 @@
 
 - name: reload toadfarm
   command: "PATH=$PATH:/usr/local/bin /home/stein/git/perlbrew-cron/perlbrew-cron.sh script/toadfarm.pl reload"
-  args:
-    chdir: /home/stein/git/webserver
   become: yes
   become_user: www
   tags: [git,perl,perlbrew]
+  args:
+    chdir: /home/stein/git/webserver/
