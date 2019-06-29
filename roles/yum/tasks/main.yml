@@ -61,9 +61,9 @@
 
 - name: install yum packages2
   yum:
-    name: "{{ item }}"
+    name: "{{ yumpackages }}"
     state: latest
-  with_items: "{{ yumpackages }}"
+#  with_items: "{{ yumpackages }}"
   become: true
 
 - file:

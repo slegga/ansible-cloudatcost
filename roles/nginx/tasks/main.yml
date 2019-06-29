@@ -3,6 +3,7 @@
 - ufw:
     state: enabled
     policy: deny
+    direction: incoming
   become: true
   tags: nginx
 
@@ -10,32 +11,60 @@
     rule: limit
     port: ssh
     proto: tcp
+    direction: in
   become: true
   tags: nginx
 
 - ufw:
     rule: allow
     port: 22
+    direction: in
   become: true
   tags: nginx
 
 - ufw:
     rule: allow
     port: 80
+    direction: in
   become: true
   tags: nginx
 
 - ufw:
     rule: allow
     port: 443
+    direction: in
   become: true
   tags: nginx
+
+- name: Copy nginx config
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+  become: true
+  tags: nginx
+
+- name: Sett header
+  become: true
+  tags: nginx
+  blockinfile:
+    path: /etc/nginx/nginx.conf
+    insertbefore: BOF
+    marker: "#{mark}ANSIBLE MANAGED HEADER"
+    block: |
+      user  nginx;
+      worker_processes  1;
+      error_log  /var/log/nginx/error.log warn;
+      pid        /var/run/nginx.pid;
+      events {
+      worker_connections  1024;
+      }
+      http {
 
 - name: Remove root dir
   lineinfile:
     destfile: /etc/nginx/nginx.conf
     state: absent
-    regexp: 'root.+/usr/share/nginx/html'
+    regexp: 'root.+/html'
   become: true
   tags: ngnix
 
@@ -64,6 +93,59 @@
         proxy_set_header X-Forwarded-Proto $scheme;
   become: true
   tags: nginx
+
+- name: Remove servername
+  lineinfile:
+    destfile: /etc/nginx/nginx.conf
+    state: absent
+    regexp: 'www.domain.com domain.com'
+  become: true
+  tags: ngnix
+
+- name: Change letsencrypt path 1
+  lineinfile:
+    path: /etc/nginx/nginx.conf
+    regexp: '^(.*).*www\.domain\.com(.*)$'
+    line: '\1{{ hostname }}\2'
+    backrefs: yes
+  become: true
+  tags: ngnix
+
+- name: Change letsencrypt path 2
+  lineinfile:
+    path: /etc/nginx/nginx.conf
+    regexp: '^(.*).*www\.domain\.com(.*)$'
+    line: '\1{{ hostname }}\2'
+    backrefs: yes
+  become: true
+  tags: ngnix
+
+- name: Change letsencrypt path 3
+  lineinfile:
+    path: /etc/nginx/nginx.conf
+    regexp: '^(.*).*www\.domain\.com(.*)$'
+    line: '\1{{ hostname }}\2'
+    backrefs: yes
+  become: true
+  tags: ngnix
+
+- name: Change letsencrypt path 4
+  lineinfile:
+    path: /etc/nginx/nginx.conf
+    regexp: '^(.*).*www\.domain\.com(.*)$'
+    line: '\1{{ hostname }}\2'
+    backrefs: yes
+  become: true
+  tags: ngnix
+
+- name: Sett footer
+  tags: nginx
+  become: true
+  blockinfile:
+    path: /etc/nginx/nginx.conf
+    marker: "#{mark}ANSIBLE MANAGED FOOTER"
+    block: |
+      }
 
 - name: Copy blocked ip address file
   copy:
