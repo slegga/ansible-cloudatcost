@@ -1,5 +1,6 @@
-- name: bare include main.yml
-  include_vars: main.yml
+---
+#- name: bare include main.yml
+#  include_vars: main.yml
 
 - lineinfile:
     destfile: /etc/aliases

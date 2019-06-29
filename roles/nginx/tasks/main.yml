@@ -93,11 +93,31 @@
       #Må komfe
       #tilnød ps -aux | grep nginx
       # service fungerer rett og slett ikke. Får bruke
-- name: Make sure web server is still running. Service module does not work with older nginx.
   #  service: name=nginx state=started enabled=yes
   # command: "service nginx start" #virker ikke
+
+- name: check if nginx is running
+  stat:
+    path: /run/nginx.pid
+  register: nginxstat
+
+
+- name: Reload nginx.
   become: yes
   command: "/usr/sbin/nginx -s reload"
-  become_user: root
+  when: nginxstat.stat.size > 1
   tags:
     - nginx
+
+- name: Start nginx
+  become: yes
+  command: "/usr/sbin/nginx"
+  when: nginxstat.stat.size < 2
+  tags:
+    - nginx
+
+
+#- hosts: localhost
+#  become: true
+#  roles:
+#    - role: nginxinc.nginx
