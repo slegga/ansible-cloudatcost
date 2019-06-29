@@ -82,3 +82,16 @@
 - name: Start auto timeset
   shell: systemctl start ntpd
   become: true
+
+# secure that /etc/resolv.conf is not overwritten
+- lineinfile:
+    destfile: /etc/resolv.conf
+    regexp: '8\.8\.8\.8'
+    line: 'nameserver 8.8.8.8'
+  become: true
+
+- lineinfile:
+    destfile: /etc/resolv.conf
+    regexp: '8\.8\.4\.4'
+    line: 'nameserver 8.8.4.4'
+  become: true
