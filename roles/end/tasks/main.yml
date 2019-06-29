@@ -6,5 +6,5 @@
   become: yes
   become_user: www
   tags: [git,perl,perlbrew]
-#  args:
-#    chdir: /home/stein/git/webserver/
+  args:
+    chdir: /home/stein/git/webserver/
