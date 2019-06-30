@@ -1,0 +1,16 @@
+[Unit]
+Description={{item.description}}
+Requires=network.target
+After=network.target
+# put here other service requirements
+
+[Service]
+User=www
+Type=simple
+Restart=always
+SyslogIdentifier={{item.name}}
+PIDFile=/var/run/{{item.name}}.pid
+ExecStart=/home/{{ssh_user}}/git/perlbrew-cron/perlbrew-cron.sh /home/{{ssh_user}}/git/webserver/script/{{item.name}}.pl start
+ExecStop=/home/{{ssh_user}}/git/perlbrew-cron/perlbrew-cron.sh /home/{{ssh_user}}/git/webserver/script/{{item.name}}.pl  stop
+ExecReload=/home/{{ssh_user}}/git/perlbrew-cron/perlbrew-cron.sh /home/{{ssh_user}}/git/webserver/script/{{item.name}}.pl  reload
+# PERL5LIB=/home/{{ssh_user}}/git/utilities-perl/lib
