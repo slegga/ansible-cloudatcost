@@ -9,10 +9,10 @@
 - name: Template a file to /lib/systemd/system/toadfarm.service
   template:
     src: toadfarm.service.j2
-    dest: /lib/systemd/system/toadfarm.service
+    dest: /lib/systemd/system/{{item.name}}.service
     owner: "{{ssh_user}}"
     group: "{{ssh_group}}"
-    mode: '0644'
+    mode: '0755'
   become: yes
   with_items:
     - {name: 'toadfarm',description: 'The http main process'}
@@ -21,7 +21,34 @@
     - perl
     - perlbrew
   register: servicefile
-  
+
+# - name: mkdir
+#   file:
+#     path: /lib/systemd/system/toadfarm.service.d/
+#     state: directory
+#     mode: u+rwx, g+rx, o+rx
+#   become: yes
+#   tags:
+#     - git
+#     - perl
+#     - perlbrew
+#
+# - name: Environment to /lib/systemd/system/{{item.name}}.service
+#   template:
+#     src: overrride.conf.j2
+#     dest: /lib/systemd/system/{{item.name}}.service.doverride.conf/override.conf
+#     owner: "{{ssh_user}}"
+#     group: "{{ssh_group}}"
+#     mode: '0644'
+#   become: yes
+#   with_items:
+#     - {name: 'toadfarm'}
+#   tags:
+#     - git
+#     - perl
+#     - perlbrew
+#   register: servicefile
+
 - name: Reload systemd
   command: systemctl --system daemon-reload
   become: yes
@@ -30,7 +57,7 @@
     - git
     - perl
     - perlbrew
-  
+
 - name: Make sure a service is running
   systemd:
     state: started
@@ -41,4 +68,3 @@
     - git
     - perl
     - perlbrew
-  

@@ -7,10 +7,13 @@ After=network.target
 [Service]
 User=www
 Type=simple
-Restart=always
+# Restart=always
 SyslogIdentifier={{item.name}}
 PIDFile=/var/run/{{item.name}}.pid
-ExecStart=/home/{{ssh_user}}/git/perlbrew-cron/perlbrew-cron.sh /home/{{ssh_user}}/git/webserver/script/{{item.name}}.pl start
-ExecStop=/home/{{ssh_user}}/git/perlbrew-cron/perlbrew-cron.sh /home/{{ssh_user}}/git/webserver/script/{{item.name}}.pl  stop
-ExecReload=/home/{{ssh_user}}/git/perlbrew-cron/perlbrew-cron.sh /home/{{ssh_user}}/git/webserver/script/{{item.name}}.pl  reload
-# PERL5LIB=/home/{{ssh_user}}/git/utilities-perl/lib
+Environment="PERL5LIB=/home/{{ssh_user}}/git/utilities-perl/lib"
+Environment="PERLBREW_HOME=/home/www/.perlbrew"
+Environment="PERLBREW_ROOT=/opt/perl5"
+ExecStart=/home/{{ssh_user}}/git/perlbrew-cron/perlbrew-cron.sh hypnotoad /home/{{ssh_user}}/git/webserver/script/{{item.name}}.pl -f
+ExecStop=/home/{{ssh_user}}/git/perlbrew-cron/perlbrew-cron.sh hypnotoad -s /home/{{ssh_user}}/git/webserver/script/{{item.name}}.pl
+ExecReload=/home/{{ssh_user}}/git/perlbrew-cron/perlbrew-cron.sh hypnotoad /home/{{ssh_user}}/git/webserver/script/{{item.name}}.pl
+KillMode=process
