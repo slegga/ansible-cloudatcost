@@ -1,10 +1,44 @@
 ---
 # End tasks
 
-- name: reload toadfarm
-  command: "PATH=$PATH:/usr/local/bin /home/stein/git/perlbrew-cron/perlbrew-cron.sh script/toadfarm.pl reload"
+# ADD /etc/systemd/system/toadfarm.service.d/override.conf
+# Environment="PERL5LIB.."
+# Environment="PERLBREW_.."
+# Environment="PERLBREW_.."
+
+- name: Template a file to /lib/systemd/system/toadfarm.service
+  template:
+    src: toadfarm.service.j2
+    dest: /lib/systemd/system/toadfarm.service
+    owner: "{{ssh_user}}"
+    group: "{{ssh_group}}"
+    mode: '0644'
   become: yes
-  become_user: www
-  tags: [git,perl,perlbrew]
-  args:
-    chdir: /home/stein/git/webserver/
+  with_items:
+    - {name: 'toadfarm',description: 'The http main process'}
+  tags:
+    - git
+    - perl
+    - perlbrew
+  register: servicefile
+  
+- name: Reload systemd
+  command: systemctl --system daemon-reload
+  become: yes
+  when: servicefile.changed
+  tags:
+    - git
+    - perl
+    - perlbrew
+  
+- name: Make sure a service is running
+  systemd:
+    state: started
+    name: toadfarm
+    enabled: yes
+  become: yes
+  tags:
+    - git
+    - perl
+    - perlbrew
+  
