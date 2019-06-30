@@ -178,25 +178,36 @@
   #  service: name=nginx state=started enabled=yes
   # command: "service nginx start" #virker ikke
 
-- name: check if nginx is running
-  stat:
-    path: /run/nginx.pid
-  register: nginxstat
+#- name: check if nginx is running
+#  stat:
+#    path: /var/run/nginx.pid
+#  register: nginxstat
 
-
-- name: Reload nginx.
+- name: Set sellinux to work with nginx
+  command: setsebool httpd_can_network_connect on -P
   become: yes
-  command: "/usr/sbin/nginx -s reload"
-  when: nginxstat.stat.size > 1
+
+
+- name: Make sure a service is running
+  systemd:
+    state: started
+    name: nginx
+    enabled: yes
+  become: yes
   tags:
     - nginx
 
-- name: Start nginx
-  become: yes
-  command: "/usr/sbin/nginx"
-  when: nginxstat.stat.size < 2
-  tags:
-    - nginx
+#- name: Reload nginx.
+#  become: yes
+#  command: "/usr/sbin/nginx -s reload"
+#  when: nginxstat.stat.size > 1
+
+#- name: Start nginx
+#  become: yes
+#  command: "/usr/sbin/nginx"
+#  when: nginxstat.stat.size < 2
+#  tags:
+#    - nginx
 
 
 #- hosts: localhost
