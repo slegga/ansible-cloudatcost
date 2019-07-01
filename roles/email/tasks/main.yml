@@ -14,8 +14,10 @@
   become: true
   tags:   email
 
-- name: Restart postfix
-  shell: service postfix restart
+- name: service postfix restart
+  service:
+    name: postfix
+    state: restarted
   become: true
   tags:   email
 
