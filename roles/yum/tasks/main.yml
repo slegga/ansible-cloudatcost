@@ -43,7 +43,7 @@
 - cron:
     name: "start at reboot"
     special_time: reboot
-    job: "cd /home/stein/git/webserver && /home/stein/git/perlbrew-cron/perlbrew-cron.sh script/toadfarm.pl reload >>~/log/cro    ntab/toadfarm.log"
+    job: "sleep 60 && cd /home/stein/git/webserver && /home/stein/git/perlbrew-cron/perlbrew-cron.sh script/toadfarm.pl reload >>~/log/crontab/toadfarm.log"
   become: true
   become_user: www
 
