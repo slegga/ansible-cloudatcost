@@ -17,21 +17,21 @@
 
 - ufw:
     rule: allow
-    port: 22
+    port: "22"
     direction: in
   become: true
   tags: nginx
 
 - ufw:
     rule: allow
-    port: 80
+    port: "80"
     direction: in
   become: true
   tags: nginx
 
 - ufw:
     rule: allow
-    port: 443
+    port: "443"
     direction: in
   become: true
   tags: nginx
@@ -106,7 +106,7 @@
   lineinfile:
     path: /etc/nginx/nginx.conf
     regexp: '^(.*).*www\.domain\.com(.*)$'
-    line: '\1{{ hostname }}\2'
+    line: '\1{{ inventory_hostname }}\2'
     backrefs: yes
   become: true
   tags: ngnix
