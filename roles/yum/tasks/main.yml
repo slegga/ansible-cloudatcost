@@ -14,10 +14,10 @@
   become: true
 
 - cron:
-    name: "check dirs"
+    name: "check dirs nightly"
     minute: "40"
     hour: "0"
-    job: "bash -l -c '/home/stein/git/utilities-perl/bin/git-status --silence' > /dev/null 2>/dev/null"
+    job: "bash -l -c '/home/stein/git/utilities-perl/bin/git-status --silence'"
 
 - cron:
     name: "nginx start at reboot"
