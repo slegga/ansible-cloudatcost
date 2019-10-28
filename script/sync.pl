@@ -67,7 +67,7 @@ while (my ($key,$value) = each %datesforfiles ) {
   }
 }
 print Dumper %datesforfiles;
-# Script to sync group_vars with dropbox
+# Script to sync group_vars with external storage catalog
 #
 # Read config file,
 # compare date on files.
