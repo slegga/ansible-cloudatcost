@@ -17,7 +17,7 @@
     name: "check dirs nightly"
     minute: "40"
     hour: "0"
-    job: "bash -l -c '/home/stein/git/utilities-perl/bin/git-status --silence'"
+    job: "bash -l -c '/home/stein/git/utilities-perl/bin/git-status --silence' 2>/dev/null 1>/dev/null"
 
 - cron:
     name: "nginx start at reboot"
