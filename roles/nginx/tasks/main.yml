@@ -45,143 +45,38 @@
   become: true
   tags: nginx
 
-- name: Copy nginx config
-  copy:
-    src: nginx.conf
+- name: Generate nginx.conf file 
+  template:
+    src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
   become: true
   tags: nginx
-
-- name: Set header
-  become: true
-  tags: nginx
-  blockinfile:
-    path: /etc/nginx/nginx.conf
-    insertbefore: BOF
-    marker: "#{mark}ANSIBLE MANAGED HEADER"
-    block: |
-      user  nginx;
-      worker_processes  1;
-      error_log  /var/log/nginx/error.log warn;
-      pid        /var/run/nginx.pid;
-      events {
-      worker_connections  1024;
-      }
-      http {
-
-- name: Remove root dir
-  lineinfile:
-    destfile: /etc/nginx/nginx.conf
-    state: absent
-    regexp: 'root.+/html'
-  become: true
-  tags: ngnix
-
-- name: insert upstream
-  blockinfile:
-    destfile: /etc/nginx/nginx.conf
-    marker: "# {mark} ANSIBLE MANAGED BLOCK upstream"
-    insertafter: "http {"
-
-    content: "    include blockips.conf;\n      upstream myapp {\n        server 127.0.0.1:8888;\n    }"
-  become: true
-  tags: ngnix
-
-- name: insert proxy settings
-  blockinfile:
-    destfile: /etc/nginx/nginx.conf
-    marker: "# {mark} ANSIBLE MANAGED BLOCK proxy settings"
-    insertafter: "^[^#]*location */ *{"
-    content: |
-        proxy_pass http://myapp;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        }
-        # The "auth_request" module does not allow 302 responses. It considers
-        # that an error. So we abuse the 401 response and rewrite that to 302
-        # here in nginx.
-        error_page 401 = @error401;
-        location @error401 {
-           return 302 https://$host?redirect_uri=$scheme://$host$request_uri;
-        }
-
-        location = /guard {
-            internal;
-            rewrite ^/.* /?$query_string break;
-            proxy_pass http://127.0.0.1:6001;
-            proxy_pass_request_body off;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-HTTPS 1;
-            proxy_set_header X-Forwarded-Proto "https";
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-            proxy_set_header Host $host;
-            proxy_http_version 1.1;
-            proxy_read_timeout 120;
-            proxy_send_timeout 120;
-            proxy_connect_timeout 60;
-            proxy_set_header Content-Length "";
-            proxy_set_header X-Original-URI $scheme://$host$request_uri;
-        }
-        location /authenticate {
-           	include includes/headers-tls-client-authenticate.conf;
-            proxy_pass http://127.0.0.1:6002;
-
-        }
-        location /test {
-            include includes/headers-tls-client-authenticate.conf;
-            auth_request /guard;
-            auth_request_set $saved_set_cookie $upstream_http_set_cookie;
-            add_header Set-Cookie $saved_set_cookie;
-            auth_request_set $x_user $upstream_http_x_user;
-            proxy_set_header X-User $x_user;
-            proxy_pass http://myapp;
-#        } do not place the last } because it is already there
-  become: true
-  tags: nginx
-
-- name: Remove servername
-  lineinfile:
-    destfile: /etc/nginx/nginx.conf
-    state: absent
-    regexp: 'www.domain.com domain.com'
-  become: true
-  tags: ngnix
-
-- name: Change letsencrypt path 1
-  replace:
-    path: /etc/nginx/nginx.conf
-    regexp: '^(.*).*www\.domain\.com(.*)$'
-    replace: '\1{{ inventory_hostname }}\2'
-#    backrefs: yes
-  become: true
-  tags: ngnix
-
-- name: Sett footer
-  tags: nginx
-  become: true
-  blockinfile:
-    path: /etc/nginx/nginx.conf
-    marker: "#{mark}ANSIBLE MANAGED FOOTER"
-    block: |
-      }
-
+        
 - name: Copy blocked ip address file
   copy:
-    src: blockips.conf
-    dest: /etc/nginx/blockips.conf
+    src: includes/blockips.conf
+    dest: /etc/nginx/includes/blockips.conf
     owner: root
     group: root
     mode: 0644
   become: true
   tags: nginx
 
-- name: Copy blocked ip address file
+- name: Copy security file
+  copy:
+    src: includes/security.conf
+    dest: /etc/nginx/includes/security.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  tags: nginx
+
+
+- name: Copy tls headers
   copy:
     src: includes/headers-tls-client-authenticate.conf
     dest: /etc/nginx/includes/headers-tls-client-authenticate.conf
@@ -196,32 +91,12 @@
   command: "/usr/sbin/nginx -t"
   changed_when: False
   become: true
-  tags:
-    - nginx
-
-#- name: Work a round nginx bug
-#  shell: 'ps -ef|grep nginx|grep master|grep -v grep|tr -s " " | cut -d " " -f2 >/run/nginx.pid'
-#  become: yes
-#  become_user: root
-#  tags:
-#    - nginx
-
-      #prøv service nginx status     på hjernen
-      #Må komfe
-      #tilnød ps -aux | grep nginx
-      # service fungerer rett og slett ikke. Får bruke
-  #  service: name=nginx state=started enabled=yes
-  # command: "service nginx start" #virker ikke
-
-#- name: check if nginx is running
-#  stat:
-#    path: /var/run/nginx.pid
-#  register: nginxstat
+  tags: nginx
 
 - name: Set sellinux to work with nginx
   command: setsebool httpd_can_network_connect on -P
   become: yes
-
+  tags: nginx
 
 - name: Make sure a service is running
   systemd:
@@ -229,23 +104,4 @@
     name: nginx
     enabled: yes
   become: yes
-  tags:
-    - nginx
-
-#- name: Reload nginx.
-#  become: yes
-#  command: "/usr/sbin/nginx -s reload"
-#  when: nginxstat.stat.size > 1
-
-#- name: Start nginx
-#  become: yes
-#  command: "/usr/sbin/nginx"
-#  when: nginxstat.stat.size < 2
-#  tags:
-#    - nginx
-
-
-#- hosts: localhost
-#  become: true
-#  roles:
-#    - role: nginxinc.nginx
+  tags: nginx
