@@ -1,4 +1,7 @@
 ---
+- name: Load variables
+  include_vars: main.yml
+  tags: nginx
 
 - ufw:
     state: enabled
@@ -45,7 +48,7 @@
   become: true
   tags: nginx
 
-- name: Generate nginx.conf file 
+- name: Generate nginx.conf file
   template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
@@ -54,7 +57,7 @@
     mode: 0644
   become: true
   tags: nginx
-        
+
 - name: Copy blocked ip address file
   copy:
     src: includes/blockips.conf

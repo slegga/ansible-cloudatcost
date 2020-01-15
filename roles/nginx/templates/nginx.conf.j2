@@ -9,14 +9,14 @@ http {
 	upstream myapp{
 		server 127.0.0.1:8888;
 	}
-	
+
 	server {
 	   listen 80;
 	   listen [::]:80;
 	   server_name slegga.0x.no;
 	   return 301 https://$host$request_uri;
 	}
-	
+
 	# SSL configuration
 	server {
 		listen 443 ssl http2;
@@ -25,12 +25,12 @@ http {
         ssl_certificate      /etc/letsencrypt/live/slegga.0x.no/fullchain.pem;
 		ssl_certificate_key  /etc/letsencrypt/live/slegga.0x.no/privkey.pem;
 	    include includes/security.conf;
-	
+
 	# Required for LE certificate enrollment using certbot
 		location '/.well-known/acme-challenge' {
 			default_type "text/plain";
 		}
-	
+
 		location / {
 		# BEGIN ANSIBLE MANAGED BLOCK proxy settings
 			proxy_pass http://myapp;
@@ -41,7 +41,7 @@ http {
 			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 			proxy_set_header X-Forwarded-Proto $scheme;
 		}
-		
+
 		# The "auth_request" module does not allow 302 responses. It considers
 		# that an error. So we abuse the 401 response and rewrite that to 302
 		# here in nginx.
@@ -49,7 +49,7 @@ http {
 		location @error401 {
 		   return 302 https://$host?redirect_uri=$scheme://$host$request_uri;
 		}
-		
+
 		location = /guard {
 		    internal;
 		    rewrite ^/.* /?$query_string break;
@@ -69,21 +69,33 @@ http {
 		    proxy_set_header Content-Length "";
 		    proxy_set_header X-Original-URI $scheme://$host$request_uri;
 		}
-	
+
 		location /authenticate {
 		   	include includes/headers-tls-client-authenticate.conf;
 		    proxy_pass http://127.0.0.1:6002;
-		
+
 		}
-	
-		location /test {
+		{% for item in shared_services %}
+		location /{{ item.service_path }} {
+		{% if item.service_type == "api" %}
 		    include includes/headers-tls-client-authenticate.conf;
 		    auth_request /guard;
 		    auth_request_set $saved_set_cookie $upstream_http_set_cookie;
 		    add_header Set-Cookie $saved_set_cookie;
 		    auth_request_set $x_user $upstream_http_x_user;
 		    proxy_set_header X-User $x_user;
-		    proxy_pass http://myapp;
+		{% elif item.service_type == "private" %}
+		    auth_request /guard;
+			auth_request_set $saved_set_cookie $upstream_http_set_cookie;
+			add_header Set-Cookie $saved_set_cookie;
+			auth_request_set $x_user $upstream_http_x_user;
+			proxy_set_header X-User $x_user;
+		{% elif item.service_type == "public" %}
+		{% else %}
+			return 504 'Unknown service_type {{ item.service_type }}';
+		{% endif %}
+			proxy_pass http://127.0.0.1:{{ item.upstream_port }};
 		}
+		{% endfor %}
 	}
 }

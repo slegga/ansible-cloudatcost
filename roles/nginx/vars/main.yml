@@ -1,0 +1,5 @@
+---
+shared_services:
+  - service_path: test
+    service_type: private
+    upstream_port: 8888
