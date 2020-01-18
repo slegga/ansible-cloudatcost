@@ -14,7 +14,7 @@ my @copyfiles =( 'group_vars/cloudatcost/vars.yml'
                 ,'ansible.cfg'
                 ,'hosts');
 my %datesforfiles; #({filename=>{old_date, new_date}})
-my $syncatdir = "$ENV{HOME}/Dropbox/Apps/pib_stein/cac";
+my $syncatdir = "$ENV{HOME}/googledrive/Apps/pib_stein/cac";
 my $ansibledir="$ENV{HOME}/ansible";
 system( "mkdir -p $ansibledir" ) if ! -e $ansibledir;
 for my $filename (@copyfiles) {
