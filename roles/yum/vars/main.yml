@@ -21,4 +21,4 @@ yumpackages:
   - expat
   - expat-devel
   - mailx
-#  - libasound2-dev not needed on slegga.0x.no
+#  - libasound2-dev not needed on piano.0x.no
