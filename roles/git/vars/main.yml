@@ -2,3 +2,4 @@ gitrepos:
   - { name: 'webserver', src: 'https://github.com/slegga/webserver.git' }
   - { name: 'utilities-perl',   src: 'https://github.com/slegga/utilities-perl.git' }
   - { name: 'perlbrew-cron',   src: 'https://github.com/agorman/perlbrew-cron.git' }
+  - { name: 'nginx-security',   src: 'https://github.com/slegga/nginx-security.git' }
