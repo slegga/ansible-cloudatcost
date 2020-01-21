@@ -8,7 +8,7 @@ use File::Copy;
 use File::Basename;
 
 
-my @copyfiles =( 'group_vars/cloudatcost/vars.yml'
+my @copyfiles =( 'group_vars/cloudatcost.yml'
 #                ,'cac_ssh/vars.yml'
 #                ,'cac_ssh/vault.yml'
                 ,'ansible.cfg'
