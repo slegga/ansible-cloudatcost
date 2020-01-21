@@ -17,14 +17,16 @@ http {
 	   return 301 https://$host$request_uri;
 	}
 
+
+
 	# SSL configuration
 	server {
 		listen 443 ssl http2;
-	 	listen [::]:443 ssl http2;
+		listen [::]:443 ssl http2;
 		server_name piano.0x.no;
-        ssl_certificate      /etc/letsencrypt/live/piano.0x.no/fullchain.pem;
+		ssl_certificate      /etc/letsencrypt/live/piano.0x.no/fullchain.pem;
 		ssl_certificate_key  /etc/letsencrypt/live/piano.0x.no/privkey.pem;
-	    include includes/security.conf;
+		include includes/security.conf;
 
 	# Required for LE certificate enrollment using certbot
 		location '/.well-known/acme-challenge' {
@@ -98,4 +100,20 @@ http {
 		}
 		{% endfor %}
 	}
+
+	# HANDLE HACKERS AND SCANNERS
+	server {
+		listen 443;
+		listen [::]:443;
+		server_name 38.240.30.37;
+		ssl_certificate      /etc/letsencrypt/live/piano.0x.no/fullchain.pem;
+		ssl_certificate_key  /etc/letsencrypt/live/piano.0x.no/privkey.pem;
+		include includes/security.conf;
+		location / {
+		    add_header Content-Type text/html;
+
+		    return 404 '<html><body><h1>Page not found<h1></body></html>';
+		}
+	}
+
 }
