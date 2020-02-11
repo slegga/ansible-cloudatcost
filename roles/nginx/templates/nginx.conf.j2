@@ -52,7 +52,7 @@ http {
 		   return 302 /xlogin/?redirect_uri=$scheme://$host$request_uri;
 		}
 
-		location = /guard/ {
+		location = /guard {
 		    internal;
 		    rewrite ^/.* / break;
 		    proxy_pass http://127.0.0.1:8101/;
@@ -60,7 +60,7 @@ http {
 #		    if ($http_cookie ~* "mojolicious=([^;]+)(?:;|$)") {
 #		        set $token "$1";
 #		    }
-		    proxy_set_header Set-Cookie $http_cookie; #https://developers.shopware.com/blog/2015/03/02/sso-with-nginx-authrequest-module/
+#		    proxy_set_header Set-Cookie $http_cookie; #https://developers.shopware.com/blog/2015/03/02/sso-with-nginx-authrequest-module/
 		    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 		    proxy_set_header X-Forwarded-HTTPS 1;
 		    proxy_set_header X-Forwarded-Proto "https";
