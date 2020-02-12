@@ -94,7 +94,7 @@ http {
 		    auth_request_set $x_user $upstream_http_x_user;
 		    proxy_set_header X-User $x_user;
 		{% elif item.service_type == "private" %}
-			rewrite ^/.*/(.*) /$1 break;
+			rewrite ^/([^/]+)/?(.*) /$1;
 		    auth_request /guard;
 			auth_request_set $saved_set_cookie $upstream_http_set_cookie;
 			add_header Set-Cookie $saved_set_cookie;

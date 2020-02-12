@@ -17,7 +17,9 @@ my $ansibledir="$ENV{HOME}/ansible";
 system( "mkdir -p $ansibledir" ) if ! -e $ansibledir;
 for my $filename (@copyfiles) {
   my $f = "$syncatdir/$filename";
+  next if -l $f; # next if file is symlink
   my $d = dirname($f);
+  next if -l $d; # next if file is symlink
   system( "mkdir -p $ansibledir" ) if ( ! -d dirname($f) );
   if (! -f $f) {
       warn "$f does not exists! Ignore";
