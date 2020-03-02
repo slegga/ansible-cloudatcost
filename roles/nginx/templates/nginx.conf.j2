@@ -67,13 +67,10 @@ http {
 		    proxy_set_header X-Forwarded-HTTPS 1;
 		    proxy_set_header X-Forwarded-Proto "https";
 		    proxy_set_header X-Real-IP $remote_addr;
-		    proxy_set_header Upgrade $http_upgrade;
-		    proxy_set_header Connection "upgrade";
-		    proxy_set_header Host $host;
 		    proxy_http_version 1.1;
-		    proxy_read_timeout 120;
-		    proxy_send_timeout 120;
-		    proxy_connect_timeout 60;
+		    proxy_read_timeout 30;
+		    proxy_send_timeout 30;
+		    proxy_connect_timeout 40;
 		    proxy_set_header Content-Length "";
 		    proxy_set_header X-Original-URI $scheme://$host$request_uri;
 		}
@@ -87,17 +84,17 @@ http {
 		}
 
 		{% for item in shared_services %}
-		location /{{ item.service_path }} {
+		location /{{ item.service_path }}/(.*)$ {
 		{% if item.service_type == "api" %}
-		    include includes/headers-tls-client-authenticate.conf;
-		    auth_request /guard;
-		    auth_request_set $saved_set_cookie $upstream_http_set_cookie;
-		    add_header Set-Cookie $saved_set_cookie;
-		    auth_request_set $x_user $upstream_http_x_user;
-		    proxy_set_header X-User $x_user;
+#		    include includes/headers-tls-client-authenticate.conf;
+#		    auth_request /guard;
+#		    auth_request_set $saved_set_cookie $upstream_http_set_cookie;
+#		    add_header Set-Cookie $saved_set_cookie;
+#		    auth_request_set $x_user $upstream_http_x_user;
+#		    proxy_set_header X-User $x_user;
 		{% elif item.service_type == "private" %}
-			rewrite ^/([^/]+)/?(.*) /$1;
-		    auth_request /guard;
+			#rewrite ^/([^/]+)/?(.*) /$2;
+            auth_request /guard;
 			auth_request_set $saved_set_cookie $upstream_http_set_cookie;
 			add_header Set-Cookie $saved_set_cookie;
 			auth_request_set $x_user $upstream_http_x_user;
@@ -106,7 +103,7 @@ http {
 		{% else %}
 			return 504 'Unknown service_type {{ item.service_type }}';
 		{% endif %}
-			proxy_pass http://127.0.0.1:{{ item.upstream_port }};
+            proxy_pass http://127.0.0.1:{{ item.upstream_port }}/$1;
 		}
 		{% endfor %}
 	}
