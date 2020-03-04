@@ -1,8 +1,14 @@
 ---
 shared_services:
-  - service_path: privat
+  - service_path: toadfarm
     service_type: private
     upstream_port: 8888
+  - service_path: xlogin
+    upstream_port: 8102
+    service_type: public
+  - service_path: privat
+    service_type: private
+    upstream_port: 8880
   - service_path: piano
     service_type: api
     upstream_port: 8870
