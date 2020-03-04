@@ -7,11 +7,11 @@
         tags: [ 'nginx' ]
       }
     - git
+    - email
     - {
         role: perlbrew,
         perlbrew_user: stein,
         use_profile: true,
         tags: [ 'perlbrew','perl' ]
       }
-    - email
-    - end
+    - nginx-security
