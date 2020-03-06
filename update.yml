@@ -14,4 +14,7 @@
         use_profile: true,
         tags: [ 'perlbrew','perl' ]
       }
-    - nginx-security
+    - {
+        role: nginx-security,
+        tags: ['mojo','nginx']
+      }
