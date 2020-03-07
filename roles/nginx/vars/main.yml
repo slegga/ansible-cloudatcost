@@ -1,18 +1,26 @@
 ---
 shared_services:
-  - service_path: toadfarm
-    service_type: private
+  - service_path:  toadfarm
+    name:          toadfarm
+    service_type:  private
     upstream_port: 8888
-  - service_path: xlogin
+  - service_path:  xguard
+    upstream_port:  8101
+    service_type:  private
+    name:          web-guard
+  - service_path:  xlogin
+    name:          web-login
     upstream_port: 8102
-    service_type: public
-  - service_path: privat
-    service_type: private
+    service_type:  public
+  - service_path:  privat
+    name:          web-private
+    service_type:  private
     upstream_port: 8880
-  - service_path: piano
-    service_type: api
+  - service_path:  piano
+    name:          web-api-piano
+    service_type:  api
     upstream_port: 8870
-  - service_path: home
-    service_type: api
+  - service_path:  home
+    name:          web-api-home
+    service_type:  api
     upstream_port: 8871
-

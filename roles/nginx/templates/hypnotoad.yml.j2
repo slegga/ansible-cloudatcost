@@ -1,0 +1,9 @@
+---
+common_config:
+  workers: 4
+  proxy: 1
+web_services:
+{% for service in shared_services %}
+	{{ service.name }}:
+		port: {{ service.upstream_port }}
+{% endfor %}
