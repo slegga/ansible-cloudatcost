@@ -4,7 +4,7 @@ shared_services:
     name:          toadfarm
     service_type:  private
     upstream_port: 8888
-  - service_path:  xguard
+  - service_path:  web-nginx-guard
     upstream_port:  8101
     service_type:  private
     name:          web-guard

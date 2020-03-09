@@ -1,6 +1,6 @@
 user  nginx;
 worker_processes  2;
-error_log  /var/log/nginx/error.log warn;
+error_log  /var/log/nginx/error.log;
 pid        /var/run/nginx.pid;
 events {
 	worker_connections  1024;
@@ -24,6 +24,7 @@ http {
 		listen 443 ssl http2;
 		listen [::]:443 ssl http2;
 		server_name {{ hostname }};
+		access_log  /var/log/nginx/access.log;
 		ssl_certificate      /etc/letsencrypt/live/{{ hostname }}/fullchain.pem;
 		ssl_certificate_key  /etc/letsencrypt/live/{{ hostname }}/privkey.pem;
 		include includes/security.conf;
@@ -77,14 +78,14 @@ http {
 
 		location /xlogin/ {
 		   	include includes/headers-tls-client-authenticate.conf;
-#			rewrite ^/xlogin/(.*) /$1 break;
+			rewrite ^/xlogin/(.*) /$1 break;
 		    proxy_pass http://127.0.0.1:8102;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_connect_timeout 60;
 		}
 
 		{% for item in shared_services %}
-		location /{{ item.service_path }}/(.*)$ {
+		location /{{ item.service_path }} {
 		{% if item.service_type == "api" %}
 #		    include includes/headers-tls-client-authenticate.conf;
 #		    auth_request /guard;
@@ -93,17 +94,17 @@ http {
 #		    auth_request_set $x_user $upstream_http_x_user;
 #		    proxy_set_header X-User $x_user;
 		{% elif item.service_type == "private" %}
-			#rewrite ^/([^/]+)/?(.*) /$2;
-            auth_request /guard;
-			auth_request_set $saved_set_cookie $upstream_http_set_cookie;
-			add_header Set-Cookie $saved_set_cookie;
-			auth_request_set $x_user $upstream_http_x_user;
-			proxy_set_header X-User $x_user;
+#            auth_request /guard;
+#			auth_request_set $saved_set_cookie $upstream_http_set_cookie;
+#			add_header Set-Cookie $saved_set_cookie;
+#			auth_request_set $x_user $upstream_http_x_user;
+#			proxy_set_header X-User $x_user;
 		{% elif item.service_type == "public" %}
 		{% else %}
 			return 504 'Unknown service_type {{ item.service_type }}';
 		{% endif %}
-            proxy_pass http://127.0.0.1:{{ item.upstream_port }}/$1;
+#			rewrite ^/([^/]+)(/?.*) /$2;
+            proxy_pass http://127.0.0.1:{{ item.upstream_port }};
 		}
 		{% endfor %}
 	}
