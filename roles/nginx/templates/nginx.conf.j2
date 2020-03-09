@@ -103,7 +103,7 @@ http {
 		{% else %}
 			return 504 'Unknown service_type {{ item.service_type }}';
 		{% endif %}
-#			rewrite ^/([^/]+)(/?.*) /$2;
+			rewrite ^/{{ item.service_path }} /$1 break;
             proxy_pass http://127.0.0.1:{{ item.upstream_port }};
 		}
 		{% endfor %}
