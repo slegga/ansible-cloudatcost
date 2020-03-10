@@ -57,6 +57,8 @@
     mode: 0644
   become: true
   tags: nginx
+  notify:
+    - restart nginx
 
 - name: Copy blocked ip address file
   copy:
@@ -88,7 +90,8 @@
     mode: 0644
   become: true
   tags: nginx
-
+  notify:
+    - restart nginx
 
 - name: Test if new config is ok
   command: "/usr/sbin/nginx -t"
