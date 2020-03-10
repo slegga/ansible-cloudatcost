@@ -16,11 +16,11 @@ shared_services:
     name:          web-private
     service_type:  private
     upstream_port: 8880
-  - service_path:  piano
+  - service_path:  api/piano
     name:          web-api-piano
     service_type:  api
     upstream_port: 8870
-  - service_path:  home
+  - service_path:  api/home
     name:          web-api-home
     service_type:  api
     upstream_port: 8871

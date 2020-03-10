@@ -58,7 +58,7 @@
   become: true
   tags: nginx
   notify:
-    - restart nginx
+    - reload nginx
 
 - name: Copy blocked ip address file
   copy:
@@ -91,7 +91,7 @@
   become: true
   tags: nginx
   notify:
-    - restart nginx
+    - reload nginx
 
 - name: Test if new config is ok
   command: "/usr/sbin/nginx -t"
