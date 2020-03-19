@@ -1,16 +1,15 @@
 - name: bare include main.yml
   include_vars: main.yml
 
-- lineinfile:
-    destfile: /etc/resolv.conf
-    regexp: '8\.8\.8\.8'
-    line: 'nameserver 8.8.8.8'
-  become: true
-
-- lineinfile:
-    destfile: /etc/resolv.conf
-    regexp: '8\.8\.4\.4'
-    line: 'nameserver 8.8.4.4'
+- name: Add two IPv4 DNS server addresses
+  nmcli:
+    conn_name: ens33
+    type: ethernet
+    ifname: ens33
+    dns4:
+    - 8.8.8.8
+    - 8.8.4.4
+    state: present
   become: true
 
 - cron:
