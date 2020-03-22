@@ -9,11 +9,11 @@ shared_services:
     service_type:  private
     name:          web-guard
   - service_path:  xlogin
-    name:          web-login
+    name:          Login
     upstream_port: 8102
     service_type:  public
   - service_path:  privat
-    name:          web-private
+    name:          MyApp
     service_type:  private
     upstream_port: 8880
   - service_path:  api/piano
