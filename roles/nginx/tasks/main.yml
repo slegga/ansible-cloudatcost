@@ -93,6 +93,28 @@
   notify:
     - reload nginx
 
+- name: Create includes dir
+  file:
+    path: /etc/nginx/html
+    state: directory
+    owner: root
+    mode: 0755
+  become: true
+  tags: nginx
+
+- name: Copy favicon.ico
+  copy:
+    src: ~/googledrive/data/cac/favicon.ico
+    dest: /etc/nginx/html/favicon.ico
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  tags: nginx
+  notify:
+    - reload nginx
+
+
 - name: Test if new config is ok
   command: "/usr/sbin/nginx -t"
   changed_when: False
