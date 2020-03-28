@@ -115,3 +115,7 @@
 - template: src=hypnotoad.yml.j2 dest=/home/www/etc/hypnotoad.yml owner=www group=www mode=0644
   become: yes
   become_user: www
+
+- template: src=general.yml.j2 dest=/home/www/etc/general.yml owner=www group=www mode=0644
+  become: yes
+  become_user: www

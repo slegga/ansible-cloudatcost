@@ -10,7 +10,7 @@
     - email
     - {
         role: perlbrew,
-        perlbrew_user: stein,
+        perlbrew_user: "{{ ssh_user }}",
         use_profile: true,
         tags: [ 'perlbrew','perl' ]
       }

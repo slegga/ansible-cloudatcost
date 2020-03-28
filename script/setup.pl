@@ -65,7 +65,7 @@ for my $ans_repo(@ans_repos) {
 		       next;
 		     } elsif ($link eq 'ansible.cfg') {
 		       if (! -e "$ansibledir/$link") {
-		         copy($item,"$ansibledir/$link");
+		         mklink($item,"$ansibledir/$link");
 		       }
 		   }
 		#   print "$item\n";
