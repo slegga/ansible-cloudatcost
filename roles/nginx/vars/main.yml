@@ -7,7 +7,7 @@ shared_services:
   - service_path:  web-nginx-guard
     upstream_port:  8101
     service_type:  private
-    name:          web-guard
+    name:          web-nginx-guard
   - service_path:  xlogin
     name:          Login
     upstream_port: 8102
