@@ -2,6 +2,7 @@
 common_config:
   workers: 4
   proxy: 1
+  hostname: {{ ansible_hostname }}
 web_services:
 {% for service in shared_services %}
 	{{ service.name }}:
