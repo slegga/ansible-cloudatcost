@@ -69,6 +69,10 @@ http {
 
 		{% for item in shared_services %}
 		location /{{ item.service_path }} {
+		    # https://ma.ttias.be/nginx-proxy-upstream-sent-big-header-reading-response-header-upstream/
+		    proxy_buffer_size            64k;
+            proxy_buffers              4 256k;
+#            proxy_busy_buffers_size      256k;
 		{% if item.service_type == "api" %}
 #		    include includes/headers-tls-client-authenticate.conf;
 #		    auth_request /guard;
