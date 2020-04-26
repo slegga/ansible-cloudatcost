@@ -92,6 +92,7 @@ http {
 			return 504 'Unknown service_type {{ item.service_type }}';
 		{% endif %}
 #			rewrite ^/{{ item.service_path }}/(.*) /$1 break;
+		    proxy_set_header X-Original-URI $scheme://$host$request_uri;
             proxy_pass http://127.0.0.1:{{ item.upstream_port }};
 		}
 		{% endfor %}
