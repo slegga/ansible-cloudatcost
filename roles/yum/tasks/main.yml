@@ -12,11 +12,12 @@
     state: present
   become: true
 
-- cron:
-    name: "check dirs nightly"
-    minute: "40"
-    hour: "0"
-    job: "bash -l -c '/home/{{ ssh_user }}/git/utilities-perl/bin/git-status --silence' 2>/dev/null 1>/dev/null"
+# No auto git update. Will use manual deploy.
+#- cron:
+#    name: "check dirs nightly"
+#    minute: "40"
+#    hour: "0"
+#    job: "bash -l -c '/home/{{ ssh_user }}/git/utilities-perl/bin/git-status --silence' 2>/dev/null 1>/dev/null"
 
 - cron:
     name: "nginx start at reboot"
