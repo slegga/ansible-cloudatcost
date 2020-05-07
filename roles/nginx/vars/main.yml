@@ -24,3 +24,7 @@ shared_services:
     name:          web-api-home
     service_type:  api
     upstream_port: 8871
+  - service_path:  podviewer
+    name:          web-pod-viewer
+    service_type:  private
+    upstream_port: 8881
