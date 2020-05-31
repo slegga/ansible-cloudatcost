@@ -2,3 +2,4 @@
 sshpass*
 *retry
 *.ignore
+.prove
