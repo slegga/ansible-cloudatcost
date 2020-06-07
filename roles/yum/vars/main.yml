@@ -22,4 +22,5 @@ yumpackages:
   - expat-devel
   - mailx
   - libuuid-devel
+  - npm
 #  - libasound2-dev not needed on hostname

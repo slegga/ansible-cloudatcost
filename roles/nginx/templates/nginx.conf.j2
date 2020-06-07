@@ -34,6 +34,10 @@ http {
 			default_type "text/plain";
 		}
 
+    location ^~ /node_modules/ {
+        alias /home/stein/node_modules/;
+    }
+
 		location = / {
 		   return 302 /xlogin/login;
 		}
