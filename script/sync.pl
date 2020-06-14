@@ -8,8 +8,8 @@ use Data::Dumper;
 use File::Basename;
 
 
-my @symlinkfiles =( 'group_vars/cloudatcost.yml'
-                ,'ansible.cfg'
+my @symlinkfiles =( 'group_vars/cloudatcost'
+                    ,'ansible.cfg'
                 ,'hosts');
 my %datesforfiles; #({filename=>{old_date, new_date}})
 my $syncatdir = "$ENV{HOME}/googledrive/data/cac";

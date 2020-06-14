@@ -1,7 +1,7 @@
 ---
-- name: Load variables
-  include_vars: main.yml
-  tags: nginx
+#- name: Load variables
+#  include_vars: main.yml
+#  tags: nginx
 
 - ufw:
     state: enabled
