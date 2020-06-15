@@ -8,7 +8,7 @@ use Data::Dumper;
 use File::Basename;
 
 
-my @symlinkfiles =( 'group_vars/cloudatcost'
+my @symlinkfiles =( 'group_vars'
                     ,'ansible.cfg'
                 ,'hosts');
 my %datesforfiles; #({filename=>{old_date, new_date}})
