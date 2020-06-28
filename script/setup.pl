@@ -20,10 +20,10 @@ my $ansibledir = "$ENV{HOME}".'/ansible';
 if (! -d $ansibledir) {
   mkdir($ansibledir);
 }
-my $grpvdir = $ansibledir.'/group_vars';
-if (! -d $grpvdir) {
-  mkdir($grpvdir);
-}
+#my $grpvdir = $ansibledir.'/group_vars';
+#if (! -d $grpvdir) {
+#  mkdir($grpvdir);
+#}
 
 $grpvdir = $ansibledir.'/ssh_vars';
 if (! -d $grpvdir) {
