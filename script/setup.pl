@@ -18,16 +18,12 @@ sub mklink {
 
 my $ansibledir = "$ENV{HOME}".'/ansible';
 if (! -d $ansibledir) {
-  mkdir($ansibledir);
+    mkdir($ansibledir);
 }
-#my $grpvdir = $ansibledir.'/group_vars';
-#if (! -d $grpvdir) {
-#  mkdir($grpvdir);
-#}
 
-$grpvdir = $ansibledir.'/ssh_vars';
+my $grpvdir = $ansibledir.'/ssh_vars';
 if (! -d $grpvdir) {
-      mkdir($grpvdir);
+    mkdir($grpvdir);
 }
 
 
@@ -37,36 +33,36 @@ for my $ans_repo(@ans_repos) {
 	    my $rolelink = basename($ans_repo);
     	$rolelink =~s/^ansible\-//;
 		if ($rolelink eq 'cloudatcost') {
-		 my @items = glob "$ans_repo/*";
-		 for my $item (@items) {
-		   my $link = basename($item);
-		     next if $link eq 'group_vars';
-		     next if $link eq 'hosts';
-
-		     if ($link eq 'README.md') {
-		       if (! -e "$ansibledir/README") {
-		         mkdir "$ansibledir/README";
-		       }
-		       my $base_repo = basename($ans_repo);
-		       mklink($item, $ansibledir.'/README/'.$base_repo.'.md');
-		       next;
-		     }
-		     elsif ($link eq 'roles') {
-		       if (! -e "$ansibledir/roles") {
-		         mkdir "$ansibledir/roles";
-		       }
-		       my @roles = glob "$item/*";
-		       for my $role (@roles) {
-		         if (-d $role) {
-		           my $base = basename($role);
-		           mklink($role, "$ansibledir/roles/$base");
-		         }
-		       }
-		       next;
-		     } elsif ($link eq 'ansible.cfg') {
-		       if (! -e "$ansibledir/$link") {
-		         mklink($item,"$ansibledir/$link");
-		       }
+            my @items = glob "$ans_repo/*";
+            for my $item (@items) {
+                my $link = basename($item);
+                next if $link eq 'group_vars';
+                next if $link eq 'hosts';
+                next if $link eq 'ansible.cfg';
+                if ($link eq 'README.md') {
+                 if (! -e "$ansibledir/README") {
+                   mkdir "$ansibledir/README";
+                 }
+                 my $base_repo = basename($ans_repo);
+                 mklink($item, $ansibledir.'/README/'.$base_repo.'.md');
+                 next;
+                }
+                elsif ($link eq 'roles') {
+                 if (! -e "$ansibledir/roles") {
+                   mkdir "$ansibledir/roles";
+                 }
+                 my @roles = glob "$item/*";
+                 for my $role (@roles) {
+                   if (-d $role) {
+                     my $base = basename($role);
+                     mklink($role, "$ansibledir/roles/$base");
+                   }
+                 }
+                 next;
+                } elsif ($link eq 'ansible.cfg') {
+                 if (! -e "$ansibledir/$link") {
+                   mklink($item,"$ansibledir/$link");
+                 }
 		   }
 		#   print "$item\n";
 		       mklink $item, "$ansibledir/$link";
