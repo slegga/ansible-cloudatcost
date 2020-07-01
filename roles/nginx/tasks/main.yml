@@ -134,12 +134,12 @@
   become: yes
   tags: nginx
 
-- template: src=hypnotoad.yml.j2 dest=/home/{{ssh_user}}/etc/hypnotoad.yml owner=www group=www mode=0644
+- template: src=hypnotoad.yml.j2 dest=/home/www/etc/hypnotoad.yml owner=www group=www mode=0644
   become: yes
   become_user: www
   tags: nginx
 
 - template: src=general.yml.j2 dest=/home/{{ssh_user}}/etc/general.yml owner=www group=www mode=0644
   become: yes
-  become_user: www
+  become_user: "{{ ssh_user }}"
   tags: nginx
