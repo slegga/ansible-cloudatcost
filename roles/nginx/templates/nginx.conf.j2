@@ -35,7 +35,7 @@ http {
 		}
 
     location ^~ /node_modules/ {
-        alias /home/stein/node_modules/;
+        alias /home/{{ ssh_user }}/node_modules/;
     }
 
 		location = / {
