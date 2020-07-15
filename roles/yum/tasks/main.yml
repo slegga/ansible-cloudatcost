@@ -112,3 +112,11 @@
     regexp: '8\.8\.4\.4'
     line: 'nameserver 8.8.4.4'
   become: true
+
+- file:
+    path: /local
+    state: directory
+    mode: 0755
+    owner: "{{ ssh_user }}"
+    group: www
+  become: true
