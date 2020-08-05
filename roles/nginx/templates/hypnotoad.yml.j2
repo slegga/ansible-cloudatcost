@@ -5,7 +5,11 @@ common_config:
   hostname: {{ inventory_hostname }}
 web_services:
 {% for service in shared_services %}
-	{{ service.name }}:
-		port: {{ service.upstream_port }}
-		service_path: {{ service.service_path }}
+    {{ service.name }}:
+      port: {{ service.upstream_port }}
+      service_path: {{ service.service_path }}
+{% if service.authorized_groups is defined %}
+      authorized_groups:
+      {{ service.authorized_groups | to_nice_yaml }}
+{% endif %}
 {% endfor %}
