@@ -22,47 +22,8 @@
 - cron:
     name: "nginx start at reboot"
     special_time: reboot
-    job: "/sbin/ninx"
+    job: "/sbin/ninx  2>&1 |/home/stein/git/utilities-perl/bin/alert.pl"
   become: true
-
-- cron:
-    name: "certbot renew"
-    minute: "39"
-    hour: "19"
-    job: "/usr/bin/bash -l -c '/usr/bin/certbot renew'"
-  become: true
-
-- cron:
-    name: "auto reload webserver"
-    minute: "40"
-    hour: "1"
-    job: "cd /home/{{ ssh_user }}/git/webserver && /home/{{ ssh_user }}/git/perlbrew-cron/perlbrew-cron.sh script/toadfarm.pl reload >>~/log/crontab/toadfarm.log"
-  become: true
-  become_user: www
-
-- cron:
-    name: "auto reload guard"
-    minute: "40"
-    hour: "1"
-    job: "cd /home/{{ ssh_user }}/git/nginx-security && /home/{{ ssh_user }}/git/perlbrew-cron/perlbrew-cron.sh bin/nginx-guard.pl reload >>~/log/crontab/nginx-guard.log"
-  become: true
-  become_user: www
-
-- cron:
-    name: "auto reload login"
-    minute: "40"
-    hour: "1"
-    job: "cd /home/{{ ssh_user }}/git/nginx-security && /home/{{ ssh_user }}/git/perlbrew-cron/perlbrew-cron.sh script/login-page.pl reload >>~/log/crontab/login-page.log"
-  become: true
-  become_user: www
-
-
-- cron:
-    name: "start at reboot"
-    special_time: reboot
-    job: "sleep 60 && cd /home/{{ ssh_user }}/git/webserver && /home/{{ ssh_user }}/git/perlbrew-cron/perlbrew-cron.sh script/toadfarm.pl reload >>~/log/crontab/toadfarm.log"
-  become: true
-  become_user: www
 
 - name: upgrade all packages
   yum:
