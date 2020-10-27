@@ -22,7 +22,7 @@
 - cron:
     name: "nginx start at reboot"
     special_time: reboot
-    job: "/sbin/ninx  2>&1 |/home/stein/git/utilities-perl/bin/alert.pl"
+    job: "/sbin/ninx  2>&1 |/home/{{ ssh_user }}/git/utilities-perl/bin/alert.pl"
   become: true
 
 - name: upgrade all packages
